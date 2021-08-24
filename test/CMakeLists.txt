@@ -16,7 +16,7 @@ add_executable(
 
 target_link_libraries(unit_tests
   PRIVATE
-    example
+    lbcompiler
     gtest_main
     gmock_main
   )
