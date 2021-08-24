@@ -1,4 +1,4 @@
-## How to build this demo
+## How to Build
 ### `make`
 * build the project
 ### `make run`
