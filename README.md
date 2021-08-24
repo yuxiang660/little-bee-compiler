@@ -72,3 +72,14 @@ target_include_directories(<target> [SYSTEM] [AFTER|BEFORE]
 ```
 target_link_libraries(<target> ... <item>... ...)
 ```
+
+## How to set up VcXsrv
+* Purpose
+  * run firefox in remote VS Code terminal
+* Steps
+  * Install VcXsrv at windows
+  * Open VcXsrv with "Disable access control"<br>
+    ![vcXsrv_Config](picture/vcXsrv_Config.png)
+  * Get VcXsrv DISPLAY value from the icon, such as: `PC-YUXIANGW:0.0`
+  * Set DISPLAY env in VS Code terminal: such as: `export DISPLAY=PC-YUXIANGW:0.0`
+  * Run `firefox` command in VS Code terminal, the browser will show in windows locally
