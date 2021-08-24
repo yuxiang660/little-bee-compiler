@@ -1,11 +1,14 @@
 # Making a library
 add_library(lbcompiler)
 
+file(GLOB_RECURSE SRC_CPP ${CMAKE_CURRENT_LIST_DIR} "*.cpp")
+file(GLOB_RECURSE SRC_HEADER ${CMAKE_CURRENT_LIST_DIR} "*.h")
+
 target_sources(lbcompiler
   PRIVATE
-    lexer.cpp
+    ${SRC_CPP}
   PUBLIC
-    lexer.h
+    ${SRC_HEADER}
   )
 
 target_include_directories(lbcompiler

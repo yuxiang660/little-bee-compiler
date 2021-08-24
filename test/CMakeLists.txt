@@ -9,9 +9,10 @@ set(BUILD_GMOCK ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(gtest)
 
 # Making an executable
+file(GLOB_RECURSE TEST_CPP ${CMAKE_CURRENT_LIST_DIR} "*.cpp")
 add_executable(
     unit_tests
-    test_lexer.cpp
+    ${TEST_CPP}
   )
 
 target_link_libraries(unit_tests
