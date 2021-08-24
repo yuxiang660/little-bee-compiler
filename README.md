@@ -1,50 +1,13 @@
 ## How to build this demo
+### `make`
+* build the project
+### `make run`
+* run the google tests in './test'
 
-```bash
-git clone https://github.com/bast/gtest-demo.git
-cd gtest-demo
-cmake -S. -Bbuild 
-cmake --build build
-```
-
-
-## Running the tests
-
-Either using `ctest`:
-```
-$ cd build
-$ ctest
-
-Running tests...
-Test project /home/user/gtest-demo/build
-    Start 1: unit
-1/1 Test #1: unit .............................   Passed    0.00 sec
-
-100% tests passed, 0 tests failed out of 1
-
-Total Test time (real) =   0.00 sec
-```
-
-Or directly using `unit_tests`:
-```
-$ cd build 
-$ ./bin/unit_tests
-
-[==========] Running 2 tests from 1 test case.
-[----------] Global test environment set-up.
-[----------] 2 tests from example
-[ RUN      ] example.add
-[       OK ] example.add (0 ms)
-[ RUN      ] example.subtract
-[       OK ] example.subtract (0 ms)
-[----------] 2 tests from example (1 ms total)
-
-[----------] Global test environment tear-down
-[==========] 2 tests from 1 test case ran. (1 ms total)
-[  PASSED  ] 2 tests.
-
-```
-
+### `make cov`
+* create test coverage html using "gcovr", then run firefox to open "./build/cov/coverage.html"
+### `make clean`
+* clean the project
 
 ## CMake Intro
 * CMake Reference - https://cliutils.gitlab.io/modern-cmake/chapters/basics.html
@@ -61,7 +24,7 @@ project(<PROJECT-NAME>
 ```
 * Example: [CMakeLists.txt](./CMakeLists.txt)
 ```
-project(gtest-demo VERSION 1.0
+project(cpp_startup_project VERSION 1.0
                 DESCRIPTION "C++ Start Up Project"
                 LANGUAGES CXX)
 ```

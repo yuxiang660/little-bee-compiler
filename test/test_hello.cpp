@@ -4,6 +4,8 @@
 * Advanced: https://github.com/google/googletest/blob/master/docs/advanced.md
 */
 
+#include "hello.h"
+
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
@@ -12,6 +14,11 @@ using ::testing::Return;
 
 namespace
 {
+
+TEST(TestHello, Hello_ReturnExpected) {
+   int rc = hello(1);
+   EXPECT_EQ(rc, 1);
+}
 
 TEST(TestSuitName, TestFunc_Condition_ExpectedBehavior) {
    EXPECT_EQ(1, 1);

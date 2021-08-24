@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.13)
 
 # Setting a project
-project(gtest-demo VERSION 1.0
+project(cpp_startup_project VERSION 1.0
                    DESCRIPTION "C++ Start Up Project"
                    LANGUAGES CXX)
 
