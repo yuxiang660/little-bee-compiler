@@ -3,11 +3,9 @@ add_library(example)
 
 target_sources(example
   PRIVATE
-    example.cpp
-    hello.cpp
+    lexer.cpp
   PUBLIC
-    example.h
-    hello.h
+    lexer.h
   )
 
 target_include_directories(example

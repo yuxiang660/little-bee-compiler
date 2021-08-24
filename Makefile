@@ -1,10 +1,10 @@
 all: build
 
-build: clean
+build:
 	@cmake -S. -Bbuild 
 	cmake --build build --verbose
 
-debug: clean
+debug:
 	@cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Debug
 	cmake --build build --verbose
 

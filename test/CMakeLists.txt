@@ -11,8 +11,7 @@ FetchContent_MakeAvailable(gtest)
 # Making an executable
 add_executable(
     unit_tests
-    test_example.cpp
-    test_hello.cpp
+    test_lexer.cpp
   )
 
 target_link_libraries(unit_tests
