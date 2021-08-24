@@ -10,17 +10,14 @@ FetchContent_MakeAvailable(gtest)
 
 # Making an executable
 file(GLOB_RECURSE TEST_CPP ${CMAKE_CURRENT_LIST_DIR} "*.cpp")
-add_executable(
-    unit_tests
-    ${TEST_CPP}
-  )
+add_executable(unit_tests ${TEST_CPP})
 
 target_link_libraries(unit_tests
   PRIVATE
     lbcompiler
     gtest_main
     gmock_main
-  )
+)
 
 # automatic discovery of unit tests
 include(GoogleTest)
@@ -29,4 +26,4 @@ gtest_discover_tests(unit_tests
     LABELS "unit"
   DISCOVERY_TIMEOUT  # how long to wait (in seconds) before crashing
     240
-  )
+)
