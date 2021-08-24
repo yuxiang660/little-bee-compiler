@@ -1,11 +1,13 @@
 ## How to Build
 ### `make`
 * build the project
+
 ### `make run`
 * run the google tests in './test'
 
 ### `make cov`
 * create test coverage html using "gcovr", then run firefox to open "./build/cov/coverage.html"
+
 ### `make clean`
 * clean the project
 
