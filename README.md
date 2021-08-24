@@ -1,6 +1,11 @@
 ## How to Build
 ### `make`
-* build the project
+* build release version project
+
+### `make debug`
+* build debug version project
+* If you want to debug with gdb, please build debug version
+* To debug with VS Code, using the [launch.json](.vscode/launch.json)
 
 ### `make run`
 * run the google tests in './test'
