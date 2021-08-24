@@ -1,9 +1,13 @@
+# CMake Reference - https://cliutils.gitlab.io/modern-cmake/chapters/basics.html
 cmake_minimum_required(VERSION 3.13)
 
-project(gtest-demo LANGUAGES CXX)
+# Setting a project
+project(gtest-demo VERSION 1.0
+                   DESCRIPTION "C++ Start Up Project"
+                   LANGUAGES CXX)
 
 # set the C++ standard
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 

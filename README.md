@@ -1,20 +1,3 @@
-[![Build Status](https://github.com/bast/gtest-demo/actions/workflows/test.yml/badge.svg)](https://github.com/bast/gtest-demo/actions/workflows/test.yml)
-[![Coverage Status](https://coveralls.io/repos/bast/gtest-demo/badge.png?branch=master)](https://coveralls.io/r/bast/gtest-demo?branch=master)
-[![License](https://img.shields.io/badge/license-%20BSD--3-blue.svg)](../master/LICENSE)
-
-
-# gtest-demo
-
-C/C++ unit test demo using [Google Test](https://code.google.com/p/googletest)
-with continuous integration provided by [GitHub
-Actions](https://docs.github.com/en/actions) and test coverage deployed to
-[Coveralls](https://coveralls.io/r/bast/gtest-demo).
-
-- [Build and test history](https://github.com/bast/gtest-demo/actions)
-- [Code coverage](https://coveralls.io/r/bast/gtest-demo)
-- Licensed under [BSD-3](../master/LICENSE)
-
-
 ## How to build this demo
 
 ```bash
@@ -63,8 +46,62 @@ $ ./bin/unit_tests
 ```
 
 
-## Acknowledgments
+## CMake Intro
+* CMake Reference - https://cliutils.gitlab.io/modern-cmake/chapters/basics.html
 
-- Container Travis setup thanks to [Joan Massich](https://github.com/massich).
-- Clean-up in CMake code thanks to [Claus Klein](https://github.com/ClausKlein).
-- Clean-up and GitHub Actions workflow: [Roberto Di Remigio](https://github.com/robertodr).
+### Setting a project
+* [Wiki](https://cmake.org/cmake/help/latest/command/project.html?highlight=project)
+```
+project(<PROJECT-NAME> [<language-name>...])
+project(<PROJECT-NAME>
+        [VERSION <major>[.<minor>[.<patch>[.<tweak>]]]]
+        [DESCRIPTION <project-description-string>]
+        [HOMEPAGE_URL <url-string>]
+        [LANGUAGES <language-name>...])
+```
+* Example: [CMakeLists.txt](./CMakeLists.txt)
+```
+project(gtest-demo VERSION 1.0
+                DESCRIPTION "C++ Start Up Project"
+                LANGUAGES CXX)
+```
+
+### Making an executable
+* [Wiki](https://cmake.org/cmake/help/latest/command/add_executable.html)
+```
+add_executable(<name> [WIN32] [MACOSX_BUNDLE]
+               [EXCLUDE_FROM_ALL]
+               [source1] [source2 ...])
+```
+* Example: [CMakeLists.txt](./test/CMakeLists.txt)
+```
+add_executable(
+    unit_tests
+    test_example.cpp
+    test_hello.cpp
+  )
+```
+
+### Making a library
+* [Wiki](https://cmake.org/cmake/help/latest/command/add_library.html)
+```
+add_library(<name> [STATIC | SHARED | MODULE]
+            [EXCLUDE_FROM_ALL]
+            [<source>...])
+```
+* Example: [CMakeLists.txt](./src/CMakeLists.txt)
+```
+add_library(example)
+```
+
+### Targets Commands
+* [target_include_directories](https://cmake.org/cmake/help/latest/command/target_include_directories.html)
+```
+target_include_directories(<target> [SYSTEM] [AFTER|BEFORE]
+  <INTERFACE|PUBLIC|PRIVATE> [items1...]
+  [<INTERFACE|PUBLIC|PRIVATE> [items2...] ...])
+```
+* [target_link_libraries](https://cmake.org/cmake/help/latest/command/target_link_libraries.html)
+```
+target_link_libraries(<target> ... <item>... ...)
+```
