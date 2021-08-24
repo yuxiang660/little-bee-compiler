@@ -13,8 +13,6 @@
 ### `make cov`
 * create test coverage html using "gcovr", then run firefox to open "./build/cov/coverage.html"
 
-![test_coverage](picture/test_coverage.png)
-
 ### `make clean`
 * clean the project
 
