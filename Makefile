@@ -8,8 +8,11 @@ debug:
 	@cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Debug
 	cmake --build build --verbose
 
-run:
+test:
 	@cd ./build && ctest
+
+run:
+	@./build/bin/main
 
 clean:
 	@rm -rf build
@@ -19,4 +22,4 @@ cov:
 	gcovr -r ./build/src -f $(CURDIR)/src --html-details -o ./build/cov/coverage.html
 	firefox ./build/cov/coverage.html
 
-.PHONY: build debug run clean coverage
+.PHONY: build debug run test clean coverage

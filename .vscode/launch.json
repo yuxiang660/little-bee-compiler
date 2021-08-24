@@ -22,6 +22,25 @@
                "ignoreFailures": true
             }
          ]
+      },
+      {
+         "name": "main",
+         "type": "cppdbg",
+         "request": "launch",
+         "program": "${workspaceFolder}/build/bin/main",
+         "args": [],
+         "stopAtEntry": false,
+         "cwd": "${workspaceFolder}",
+         "environment": [],
+         "console": "externalTerminal",
+         "MIMode": "gdb",
+         "setupCommands": [
+            {
+               "description": "Enable pretty-printing for gdb",
+               "text": "-enable-pretty-printing",
+               "ignoreFailures": true
+            }
+         ]
       }
    ]
 }
