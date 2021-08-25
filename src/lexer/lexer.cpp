@@ -4,9 +4,10 @@
 namespace LBC
 {
 
-void Lexer::scan()
+TokenPtr Lexer::scan()
 {
    std::cout << "hello scan " << std::endl;
+   return nullptr;
 }
 
 }

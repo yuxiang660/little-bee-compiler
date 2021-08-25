@@ -1,6 +1,9 @@
 all: build
 
 build:
+	cmake --build build --verbose
+
+release:
 	@cmake -S. -Bbuild 
 	cmake --build build --verbose
 
