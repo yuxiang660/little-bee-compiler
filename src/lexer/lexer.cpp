@@ -43,6 +43,8 @@ void Lexer::init_word_map()
    insert_keyword("<", Tag::OTHER);
    insert_keyword("&", Tag::OTHER);
    insert_keyword("|", Tag::OTHER);
+   insert_keyword("]", Tag::OTHER);
+   insert_keyword("[", Tag::OTHER);
 
    auto insert_type = [&words = this->m_words](const Type& type) {
       words[type.get_lexeme()] = std::make_shared<Type>(type.get_lexeme().c_str(), type.get_width());
