@@ -1,6 +1,7 @@
 #pragma once
 
 #include "lexer/token.h"
+#include "lexer/tag.h"
 
 namespace LBC
 {
@@ -8,7 +9,8 @@ namespace LBC
 class Type: public Token
 {
 public:
-   Type(const char* lexeme, int width);
+   Type(const char* lexeme, int width): Token(lexeme, Tag::BASIC), m_width(width) {}
+   int get_width() const { return m_width; }
 
 private:
    const int m_width;

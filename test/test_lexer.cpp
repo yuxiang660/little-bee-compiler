@@ -6,7 +6,8 @@ namespace
 
 TEST(TestLexer, Scan_ExpectedBehavior) {
    LBC::Lexer l;
-   l.scan();
+   auto token = l.scan();
+   std::cout << token->toString() << std::endl;
 }
 
 }
