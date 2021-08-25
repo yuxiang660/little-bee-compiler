@@ -5,7 +5,7 @@ FetchContent_Declare(gtest
 )
 # configure build of googletest
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-set(BUILD_GMOCK ON CACHE BOOL "" FORCE)
+set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(gtest)
 
 # Making an executable
@@ -16,7 +16,6 @@ target_link_libraries(unit_tests
   PRIVATE
     lbcompiler
     gtest_main
-    gmock_main
 )
 
 # automatic discovery of unit tests
