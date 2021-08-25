@@ -1,4 +1,5 @@
 #include "lexer/lexer.h"
+#include "lexer/token.h"
 #include <gtest/gtest.h>
 
 namespace
@@ -6,8 +7,9 @@ namespace
 
 TEST(TestLexer, Scan_ExpectedBehavior) {
    LBC::Lexer l;
-   auto token = l.scan();
-   std::cout << token->toString() << std::endl;
+   auto token_ptr = l.scan();
+   const LBC::TokenInterface& token = *token_ptr;
+   std::cout << token.get_lexeme() << std::endl;
 }
 
 }
