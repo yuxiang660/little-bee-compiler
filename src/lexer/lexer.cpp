@@ -27,6 +27,22 @@ void Lexer::init_word_map()
    insert_keyword("continue", Tag::CONTINUE);
    insert_keyword("true", Tag::TRUE);
    insert_keyword("false", Tag::FALSE);
+   insert_keyword("&&", Tag::AND);
+   insert_keyword("||", Tag::OR);
+   insert_keyword("==", Tag::EQ);
+   insert_keyword("!=", Tag::NE);
+   insert_keyword("<=", Tag::LE);
+   insert_keyword(">=", Tag::GE);
+   insert_keyword("+", Tag::OTHER);
+   insert_keyword("-", Tag::OTHER);
+   insert_keyword("*", Tag::OTHER);
+   insert_keyword("/", Tag::OTHER);
+   insert_keyword("!", Tag::OTHER);
+   insert_keyword("=", Tag::OTHER);
+   insert_keyword(">", Tag::OTHER);
+   insert_keyword("<", Tag::OTHER);
+   insert_keyword("&", Tag::OTHER);
+   insert_keyword("|", Tag::OTHER);
 
    auto insert_type = [&words = this->m_words](const Type& type) {
       words[type.get_lexeme()] = std::make_shared<Type>(type.get_lexeme().c_str(), type.get_width());
