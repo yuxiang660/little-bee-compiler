@@ -1,7 +1,9 @@
 #include "lexer/lexer.h"
+#include "lexer/num.h"
 #include "lexer/token.h"
 #include "lexer/type.h"
 
+#include <cctype>
 #include <iostream>
 
 namespace LBC
@@ -18,7 +20,15 @@ Lexer::Lexer(std::istream& in):
 
 void Lexer::readch()
 {
-   m_in.get(m_peek);
+   m_peek = m_in.get();
+}
+
+bool Lexer::readch(char c)
+{
+   readch();
+   if (m_peek != c) return false;
+   m_peek = ' ';
+   return true;
 }
 
 void Lexer::init_keywords()
@@ -64,9 +74,66 @@ void Lexer::init_keywords()
 
 TokenPtr Lexer::scan()
 {
-   readch();
-   std::cout << "m_peek: " << m_peek << std::endl;
-   return m_words["else"];
+   for (; ; readch()) {
+      if (m_peek == ' ' || m_peek == '\t') continue;
+      else if (m_peek == '\n') s_line += 1;
+      else
+         break;
+   }
+   switch (m_peek)
+   {
+      case '&':
+         return readch('&') ? m_words["&&"] : m_words["&"];
+      case '|':
+         return readch('|') ? m_words["||"] : m_words["|"];
+      case '=':
+         return readch('=') ? m_words["=="] : m_words["="];
+      case '!':
+         return readch('=') ? m_words["!="] : m_words["!"];
+      case '<':
+         return readch('=') ? m_words["<="] : m_words["<"];
+      case '>':
+         return readch('=') ? m_words[">="] : m_words[">"];
+   }
+
+   if (isdigit(m_peek) || m_peek == '.') {
+      int val = 0;
+      if (m_peek != '.') {
+         do {
+            val = 10 * val + (m_peek - '0');
+            readch();
+         } while (isdigit(m_peek));
+      }
+      if (m_peek != '.') return std::make_shared<Integer>(val);
+      float val_f = val;
+      float weight = 1 / 10;
+      do {
+         readch();
+         val_f = val_f + (m_peek - '0') * weight;
+         weight /= 10;
+      } while (isdigit(m_peek));
+      return std::make_shared<Float>(val_f);
+   }
+
+   if (isalpha(m_peek) || m_peek == '_') {
+      std::string symbol;
+      do {
+         symbol.push_back(m_peek);
+         readch();
+      } while (isalpha(m_peek) || isdigit(m_peek) || m_peek == '_');
+
+      if (m_words.find(symbol) != m_words.end()) {
+         return m_words[symbol];
+      } else {
+         m_words[symbol] = std::make_shared<Token>(symbol.c_str(), Tag::SYMBOL);
+         return m_words[symbol];
+      }
+   }
+
+   if (m_words.find({m_peek}) != m_words.end()) return m_words[{m_peek}];
+
+   std::cout << "ERROR m_peek: " << m_peek << std::endl;
+   return nullptr;
 }
 
 }

@@ -9,7 +9,7 @@ namespace
 {
 
 TEST(TestLexer, Scan_ExpectedBehavior) {
-   std::string mock_inputs = "{}";
+   std::string mock_inputs = "if";
    std::istringstream iss(mock_inputs);
    LBC::Lexer l(iss);
    auto token_ptr = l.scan();

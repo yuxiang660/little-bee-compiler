@@ -35,6 +35,7 @@ public:
 private:
    void init_keywords();
    void readch();
+   bool readch(char c);
 
 private:
    std::istream& m_in;
