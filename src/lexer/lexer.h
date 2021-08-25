@@ -3,6 +3,7 @@
 #include "lexer/token.h"
 
 #include <memory>
+#include <iostream>
 #include <string>
 #include <unordered_map>
 
@@ -24,7 +25,7 @@ public:
    static int s_line;
 
 public:
-   Lexer();
+   explicit Lexer(std::istream& in = std::cin);
    TokenPtr scan();
 
 public:
@@ -33,8 +34,10 @@ public:
 
 private:
    void init_word_map();
+   void readch();
 
 private:
+   std::istream& m_in;
    char m_peek;
    std::unordered_map<std::string, TokenPtr> m_words;
 };

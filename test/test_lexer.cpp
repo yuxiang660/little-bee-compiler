@@ -2,12 +2,16 @@
 #include "lexer/token.h"
 #include <gtest/gtest.h>
 #include <memory>
+#include <sstream>
+#include <string>
 
 namespace
 {
 
 TEST(TestLexer, Scan_ExpectedBehavior) {
-   LBC::Lexer l;
+   std::string mock_inputs = "{}";
+   std::istringstream iss(mock_inputs);
+   LBC::Lexer l(iss);
    auto token_ptr = l.scan();
    const LBC::TokenInterface& token = *token_ptr;
    std::cout << token.get_lexeme() << std::endl;

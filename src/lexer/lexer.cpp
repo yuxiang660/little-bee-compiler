@@ -9,9 +9,16 @@ namespace LBC
 
 int Lexer::s_line = 1;
 
-Lexer::Lexer()
+Lexer::Lexer(std::istream& in):
+   m_in(in),
+   m_peek(' ')
 {
    init_word_map();
+}
+
+void Lexer::readch()
+{
+   m_in.get(m_peek);
 }
 
 void Lexer::init_word_map()
@@ -57,7 +64,8 @@ void Lexer::init_word_map()
 
 TokenPtr Lexer::scan()
 {
-   std::cout << "hello scan " << std::endl;
+   readch();
+   std::cout << "m_peek: " << m_peek << std::endl;
    return m_words["else"];
 }
 
