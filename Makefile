@@ -1,7 +1,4 @@
-all: build
-
-build:
-	cmake --build build --verbose
+all: debug
 
 release:
 	@cmake -S. -Bbuild 
