@@ -13,7 +13,7 @@ Lexer::Lexer(std::istream& in):
    m_in(in),
    m_peek(' ')
 {
-   init_word_map();
+   init_keywords();
 }
 
 void Lexer::readch()
@@ -21,7 +21,7 @@ void Lexer::readch()
    m_in.get(m_peek);
 }
 
-void Lexer::init_word_map()
+void Lexer::init_keywords()
 {
    auto insert_keyword = [&words = this->m_words](const char* lexeme, Tag tag) {
       words[lexeme] = std::make_shared<Token>(lexeme, tag);

@@ -33,7 +33,7 @@ public:
    Lexer& operator=(const Lexer&) = delete;
 
 private:
-   void init_word_map();
+   void init_keywords();
    void readch();
 
 private:
