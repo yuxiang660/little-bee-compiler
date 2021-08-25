@@ -10,4 +10,3 @@ TEST(TestLexer, Scan_ExpectedBehavior) {
 }
 
 }
-

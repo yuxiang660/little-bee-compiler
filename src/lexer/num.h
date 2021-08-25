@@ -15,7 +15,7 @@ template<typename T>
 class Num: public Token
 {
 public:
-   Num(T val):
+   explicit Num(T val):
       Token(std::to_string(val).c_str(), get_num_tag<T>()),
       m_val(val)
    {}

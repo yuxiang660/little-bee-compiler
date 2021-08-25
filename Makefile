@@ -22,4 +22,8 @@ cov:
 	gcovr -r ./build/src -f $(CURDIR)/src --html-details -o ./build/cov/coverage.html
 	firefox ./build/cov/coverage.html
 
+# filter rules in CPPLINT.cfg
+lint:
+	cpplint --recursive ./src
+
 .PHONY: build debug run test clean coverage
