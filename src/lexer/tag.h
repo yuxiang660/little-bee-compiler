@@ -19,7 +19,7 @@ enum class Tag
    LE,      // <=
    MINUS,   // -
    NE,      // !=
-   NUM,     // integer number
+   INTEGER, // integer number
    OR,      // ||
    REAL,    // decimals
    TEMP,    // t, temporary var for three-address instruction

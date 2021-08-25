@@ -1,4 +1,7 @@
 #include "lexer.h"
+#include "token.h"
+#include "type.h"
+
 #include <iostream>
 
 namespace LBC

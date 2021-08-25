@@ -13,4 +13,9 @@ std::string Token::toString() const
    return m_lexeme;
 }
 
+Tag Token::get_tag() const
+{
+   return m_tag;
+}
+
 }
