@@ -13,7 +13,7 @@ enum class Tag
    EQ,      // ==
    FALSE,   // false
    GE,      // >=
-   ID,      // identifier, such as variable name
+   SYMBOL,  // symbol, such as variable name
    IF,      // if
    INDEX,   // []
    LE,      // <=
