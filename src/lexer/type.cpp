@@ -1,5 +1,5 @@
-#include "type.h"
-#include "tag.h"
+#include "lexer/type.h"
+#include "lexer/tag.h"
 
 namespace LBC
 {

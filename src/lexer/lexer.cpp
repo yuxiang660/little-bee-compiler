@@ -1,6 +1,6 @@
-#include "lexer.h"
-#include "token.h"
-#include "type.h"
+#include "lexer/lexer.h"
+#include "lexer/token.h"
+#include "lexer/type.h"
 
 #include <iostream>
 
