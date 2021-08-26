@@ -1,9 +1,11 @@
 #include "lexer/lexer.h"
 #include "lexer/token.h"
+#include "lexer/temp.h"
 #include "internal/error.h"
 #include <gtest/gtest.h>
 
 #include <cstdarg>
+#include <memory>
 #include <iostream>
 #include <sstream>
 
@@ -24,30 +26,32 @@ public:
 
 public:
    void prog() {
-      // expr -> term + expr
-      //       | term - expr
-      //       | term
-      // term -> digital
+      // expr   -> term + expr
+      //         | term - expr
+      //         | term
+      // term   -> factor * expr
+      //         | factor / expr
+      //         | factor
+      // factor -> digital
       expr();
    }
 
 private:
-   void expr() {
-      term();
+   TokenPtr expr() {
+      auto node = term();
       while (m_look->get_tag() == Tag::ADD || m_look->get_tag() == Tag::SUB) {
-         auto op_lexeme = m_look->get_lexeme();
+         auto op = m_look;
          match(2, Tag::ADD, Tag::SUB);
-         term();
-         std::cout << op_lexeme;
+         node = arith(op, node, term());
       }
       std::cout << std::endl;
-      return;
+      return node;
    }
 
-   void term() {
-      std::cout << m_look->get_lexeme();
+   TokenPtr term() {
+      auto node = m_look;
       match(2, Tag::INTEGER, Tag::REAL);
-      return;
+      return node;
    }
 
    void match(int count, ...) {
@@ -71,6 +75,13 @@ private:
       }
 
       m_look = m_lex.scan();
+   }
+
+   TokenPtr arith(const TokenPtr& op, const TokenPtr& l_operand, const TokenPtr& r_operand) {
+      auto node = std::make_shared<Temp>();
+      std::cout << node->get_lexeme() << " = " << l_operand->get_lexeme() << " " << op->get_lexeme()
+                << " " << r_operand->get_lexeme() << std::endl;
+      return node;
    }
 
 private:
