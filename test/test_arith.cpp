@@ -26,13 +26,19 @@ public:
 
 public:
    void prog() {
-      // expr   -> term + expr
-      //         | term - expr
-      //         | term
-      // term   -> factor * expr
-      //         | factor / expr
-      //         | factor
-      // factor -> digital
+      /*
+       * expr   -> term t_rest
+       * t_rest -> + term t_rest
+       *         | - term t_rest
+       *         | term
+       *         | ε
+       * term   -> factor f_rest
+       * f_rest -> * factor f_rest
+       *         | / factor f_rest
+       *         | factor
+       *         | ε
+       * factor -> digital
+      */
       expr();
    }
 
