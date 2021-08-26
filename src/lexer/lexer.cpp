@@ -164,7 +164,7 @@ TokenPtr Lexer::scan()
 
    std::ostringstream oss;
    oss << "Invalid character: " << m_peek << std::endl;
-   throw Exception(ERR_IVALID_TOKEN, oss.str().c_str());
+   throw Exception(ERR_LEXER_INVALID_TOKEN, oss.str().c_str());
    return nullptr;
 }
 

@@ -35,6 +35,7 @@ private:
    std::string m_msg;
 };
 
-const Error ERR_IVALID_TOKEN = {-1, "Fails to parse the token"};
+const Error ERR_LEXER_INVALID_TOKEN = {-1, "Lexer fails to parse the token"};
+const Error ERR_PARSER_UNEXPECTED_TOKEN = {-2, "Parser gets unexpected token"};
 
 }
