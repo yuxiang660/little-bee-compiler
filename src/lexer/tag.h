@@ -27,7 +27,21 @@ enum class Tag
    TRUE,    // true
    WHILE,   // while
    CONTINUE,// continue
-   OTHER    // other single char, such as: &, |, =, !, <, >, +, -, *, /
+   // Single char
+   ADD,     // +
+   SUB,     // -
+   MUL,     // *
+   DIV,     // /
+   NOT,     // !
+   ASSIGN,  // =
+   GREAT,   // >
+   LESS,    // <
+   BITAND,  // &
+   BITOR,   // |
+   LINDEX,  // [
+   RINDEX,  // ]
+   LBRACK,  // (
+   RBRACK   // )
 };
 
 }

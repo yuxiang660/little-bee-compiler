@@ -53,18 +53,20 @@ void Lexer::init_keywords()
    insert_keyword("!=", Tag::NE);
    insert_keyword("<=", Tag::LE);
    insert_keyword(">=", Tag::GE);
-   insert_keyword("+", Tag::OTHER);
-   insert_keyword("-", Tag::OTHER);
-   insert_keyword("*", Tag::OTHER);
-   insert_keyword("/", Tag::OTHER);
-   insert_keyword("!", Tag::OTHER);
-   insert_keyword("=", Tag::OTHER);
-   insert_keyword(">", Tag::OTHER);
-   insert_keyword("<", Tag::OTHER);
-   insert_keyword("&", Tag::OTHER);
-   insert_keyword("|", Tag::OTHER);
-   insert_keyword("]", Tag::OTHER);
-   insert_keyword("[", Tag::OTHER);
+   insert_keyword("+", Tag::ADD);
+   insert_keyword("-", Tag::SUB);
+   insert_keyword("*", Tag::MUL);
+   insert_keyword("/", Tag::DIV);
+   insert_keyword("!", Tag::NOT);
+   insert_keyword("=", Tag::ASSIGN);
+   insert_keyword(">", Tag::GREAT);
+   insert_keyword("<", Tag::LESS);
+   insert_keyword("&", Tag::BITAND);
+   insert_keyword("|", Tag::BITOR);
+   insert_keyword("[", Tag::LINDEX);
+   insert_keyword("]", Tag::RINDEX);
+   insert_keyword("(", Tag::LBRACK);
+   insert_keyword(")", Tag::RBRACK);
 
    auto insert_type = [&words = this->m_words](const Type& type) {
       words[type.get_lexeme()] = std::make_shared<Type>(type.get_lexeme().c_str(), type.get_width());

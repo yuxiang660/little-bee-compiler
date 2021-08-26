@@ -22,7 +22,7 @@ typedef std::shared_ptr<TokenInterface> TokenPtr;
 class Token: public TokenInterface
 {
 public:
-   explicit Token(const char* lexeme, Tag t = Tag::OTHER);
+   Token(const char* lexeme, Tag t);
    Tag get_tag() const;
    std::string get_lexeme() const;
 

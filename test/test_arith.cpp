@@ -21,7 +21,7 @@ public:
    void expr() {
       term();
       while (true) {
-         if (m_look->get_tag() == Tag::OTHER) {
+         if (m_look->get_tag() == Tag::ADD || m_look->get_tag() == Tag::SUB) {
             auto op = m_look->get_lexeme();
             move();
             term();
