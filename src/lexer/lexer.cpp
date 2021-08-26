@@ -108,12 +108,13 @@ TokenPtr Lexer::scan()
       }
       if (m_peek != '.') return std::make_shared<Integer>(val);
       float val_f = val;
-      float weight = 1 / 10;
-      do {
+      float weight = 1 / 10.0;
+      while (true) {
          readch();
-         val_f = val_f + (m_peek - '0') * weight;
-         weight /= 10;
-      } while (isdigit(m_peek));
+         if (!isdigit(m_peek)) break;
+         val_f += (m_peek - '0') * weight;
+         weight /= 10.0;
+      }
       return std::make_shared<Float>(val_f);
    }
 
