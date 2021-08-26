@@ -1,6 +1,8 @@
 #pragma once
 
 #include "lexer/token.h"
+#include <string>
+#include <sstream>
 
 namespace LBC
 {
@@ -12,13 +14,23 @@ constexpr Tag get_num_tag()
 }
 
 template<typename T>
+std::string to_string(T val)
+{
+   std::stringstream ss;
+   ss << val;
+   return ss.str();
+}
+
+template<typename T>
 class Num: public Token
 {
 public:
    explicit Num(T val):
-      Token(std::to_string(val).c_str(), get_num_tag<T>()),
+      Token(to_string(val).c_str(), get_num_tag<T>()),
       m_val(val)
    {}
+
+   T get_val() const { return m_val; }
 
 private:
    const T m_val;
