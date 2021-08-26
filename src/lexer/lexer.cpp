@@ -67,6 +67,7 @@ void Lexer::init_keywords()
    insert_keyword("]", Tag::RINDEX);
    insert_keyword("(", Tag::LBRACK);
    insert_keyword(")", Tag::RBRACK);
+   insert_keyword("EOF", Tag::STOP);
 
    auto insert_type = [&words = this->m_words](const Type& type) {
       words[type.get_lexeme()] = std::make_shared<Type>(type.get_lexeme().c_str(), type.get_width());
@@ -109,7 +110,17 @@ TokenPtr Lexer::scan()
             readch();
          } while (isdigit(m_peek));
       }
-      if (m_peek != '.') return std::make_shared<Integer>(val);
+      if (m_peek != '.') {
+         auto key = std::to_string(val);
+         if (m_words.find(key) != m_words.end()) {
+            return m_words[key];
+         }
+         else {
+            m_words[key] = std::make_shared<Integer>(val);
+            return m_words[key];
+         }
+      }
+
       float val_f = val;
       float weight = 1 / 10.0;
       while (true) {
@@ -118,7 +129,14 @@ TokenPtr Lexer::scan()
          val_f += (m_peek - '0') * weight;
          weight /= 10.0;
       }
-      return std::make_shared<Float>(val_f);
+      auto key = std::to_string(val_f);
+      if (m_words.find(key) != m_words.end()) {
+         return m_words[key];
+      }
+      else {
+         m_words[key] = std::make_shared<Float>(val_f);
+         return m_words[key];
+      }
    }
 
    if (isalpha(m_peek) || m_peek == '_') {
@@ -142,7 +160,7 @@ TokenPtr Lexer::scan()
       return token;
    }
 
-   if (m_peek == EOF) return std::make_shared<Token>("", Tag::STOP);
+   if (m_peek == EOF) return m_words["EOF"];
 
    std::ostringstream oss;
    oss << "Invalid character: " << m_peek << std::endl;
