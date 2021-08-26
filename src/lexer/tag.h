@@ -22,6 +22,7 @@ enum class Tag
    INTEGER, // integer number
    OR,      // ||
    REAL,    // decimals
+   STOP,    // stop flag, such as EOF
    TEMP,    // t, temporary var for three-address instruction
    TRUE,    // true
    WHILE,   // while

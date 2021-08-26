@@ -134,7 +134,13 @@ TokenPtr Lexer::scan()
       }
    }
 
-   if (m_words.find({m_peek}) != m_words.end()) return m_words[{m_peek}];
+   if (m_words.find({m_peek}) != m_words.end()) {
+      auto token = m_words[{m_peek}];
+      m_peek = ' ';
+      return token;
+   }
+
+   if (m_peek == EOF) return std::make_shared<Token>("", Tag::STOP);
 
    std::ostringstream oss;
    oss << "Invalid character: " << m_peek << std::endl;
