@@ -2,9 +2,11 @@
 #include "lexer/num.h"
 #include "lexer/token.h"
 #include "lexer/type.h"
+#include "internal/error.h"
 
 #include <cctype>
 #include <iostream>
+#include <sstream>
 
 namespace LBC
 {
@@ -132,7 +134,9 @@ TokenPtr Lexer::scan()
 
    if (m_words.find({m_peek}) != m_words.end()) return m_words[{m_peek}];
 
-   std::cout << "ERROR m_peek: " << m_peek << std::endl;
+   std::ostringstream oss;
+   oss << "Invalid character: " << m_peek << std::endl;
+   throw Exception(ERR_IVALID_TOKEN, oss.str().c_str());
    return nullptr;
 }
 
