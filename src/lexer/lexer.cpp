@@ -6,6 +6,7 @@
 
 #include <cctype>
 #include <iostream>
+#include <memory>
 #include <sstream>
 
 namespace LBC

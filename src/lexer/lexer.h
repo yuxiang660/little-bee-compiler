@@ -2,15 +2,12 @@
 
 #include "lexer/token.h"
 
-#include <memory>
 #include <iostream>
 #include <string>
 #include <unordered_map>
 
 namespace LBC
 {
-
-typedef std::shared_ptr<TokenInterface> TokenPtr;
 
 class LexerInterface
 {

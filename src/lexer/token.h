@@ -2,6 +2,7 @@
 
 #include "lexer/tag.h"
 
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -15,6 +16,8 @@ public:
    virtual std::string get_lexeme() const = 0;
    virtual ~TokenInterface() = default;
 };
+
+typedef std::shared_ptr<TokenInterface> TokenPtr;
 
 class Token: public TokenInterface
 {
