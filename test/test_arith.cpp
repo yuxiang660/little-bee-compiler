@@ -44,11 +44,20 @@ private:
          match(2, Tag::ADD, Tag::SUB);
          node = arith(op, node, term());
       }
-      std::cout << std::endl;
       return node;
    }
 
    TokenPtr term() {
+      auto node = factor();
+      while (m_look->get_tag() == Tag::MUL || m_look->get_tag() == Tag::DIV) {
+         auto op = m_look;
+         match(2, Tag::MUL, Tag::DIV);
+         node = arith(op, node, factor());
+      }
+      return node;
+   }
+
+   TokenPtr factor() {
       auto node = m_look;
       match(2, Tag::INTEGER, Tag::REAL);
       return node;
@@ -90,7 +99,7 @@ private:
 };
 
 TEST(TestAddSud, ExpectedLog) {
-   std::string text = "1+2-5+7";
+   std::string text = "1+2*5+7";
    std::istringstream iss(text);
    LBC::Lexer lex(iss);
    ParserAddSud parser = ParserAddSud(lex);
