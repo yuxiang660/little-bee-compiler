@@ -8,9 +8,9 @@ NodePtr NodeFactory::make_node(TokenPtr token)
    return std::make_shared<Node>(token);
 }
 
-NodePtr NodeFactory::make_arith_node(const char* code)
+NodePtr NodeFactory::make_arith_node(NodePtr op, NodePtr lhs, NodePtr rhs)
 {
-   return std::make_shared<ArithNode>(code);
+   return std::make_shared<ArithNode>(op, lhs, rhs);
 }
 
 NodePtr NodeFactory::make_temp_node()
@@ -27,13 +27,15 @@ std::string Node::to_string() const
    return m_gen_code;
 }
 
-ArithNode::ArithNode(const char* code) :
-   m_gen_code(code)
+ArithNode::ArithNode(NodePtr op, NodePtr lhs, NodePtr rhs):
+   m_op(op),
+   m_lhs(lhs),
+   m_rhs(rhs)
 {}
 
 std::string ArithNode::to_string() const
 {
-   return m_gen_code;
+   return m_lhs->to_string() + " " + m_op->to_string() + " " + m_rhs->to_string();
 }
 
 int TempNode::s_temp_id = 0;

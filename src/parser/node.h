@@ -22,7 +22,7 @@ class NodeFactory
 {
 public:
    static NodePtr make_node(TokenPtr token);
-   static NodePtr make_arith_node(const char* code);
+   static NodePtr make_arith_node(NodePtr op, NodePtr lhs, NodePtr rhs);
    static NodePtr make_temp_node();
 };
 
@@ -39,11 +39,13 @@ private:
 class ArithNode: public NodeInterface
 {
 public:
-   explicit ArithNode(const char* arith);
+   ArithNode(NodePtr op, NodePtr lhs, NodePtr rhs);
    std::string to_string() const;
 
 private:
-   std::string m_gen_code;
+   NodePtr m_op;
+   NodePtr m_lhs;
+   NodePtr m_rhs;
 };
 
 class TempNode: public NodeInterface
