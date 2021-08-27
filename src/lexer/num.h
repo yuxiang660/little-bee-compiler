@@ -8,26 +8,24 @@ namespace LBC
 {
 
 template<typename T>
-constexpr Tag get_num_tag()
+static constexpr Tag get_num_tag()
 {
    return std::is_same_v<T, float> ? Tag::REAL : Tag::INTEGER;
 }
 
 template<typename T>
-std::string to_string(T val)
+static constexpr T string_to_val(std::string val)
 {
-   std::stringstream ss;
-   ss << val;
-   return ss.str();
+   return std::is_same_v<T, float> ? std::stof(val) : std::stoi(val);
 }
 
 template<typename T>
 class Num: public Token
 {
 public:
-   explicit Num(T val):
-      Token(to_string(val).c_str(), get_num_tag<T>()),
-      m_val(val)
+   explicit Num(const char* val):
+      Token(val, get_num_tag<T>()),
+      m_val(string_to_val<T>(val))
    {}
 
    T get_val() const { return m_val; }

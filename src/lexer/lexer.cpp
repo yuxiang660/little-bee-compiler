@@ -103,39 +103,28 @@ TokenPtr Lexer::scan()
    }
 
    if (isdigit(m_peek) || m_peek == '.') {
-      int val = 0;
-      if (m_peek != '.') {
+      std::string number;
+      do {
+            number.push_back(m_peek);
+            readch();
+      } while (isdigit(m_peek));
+
+      if (m_peek == '.') {
          do {
-            val = 10 * val + (m_peek - '0');
+            number.push_back(m_peek);
             readch();
          } while (isdigit(m_peek));
       }
-      if (m_peek != '.') {
-         auto key = std::to_string(val);
-         if (m_words.find(key) != m_words.end()) {
-            return m_words[key];
-         }
-         else {
-            m_words[key] = std::make_shared<Integer>(val);
-            return m_words[key];
-         }
-      }
 
-      float val_f = val;
-      float weight = 1 / 10.0;
-      while (true) {
-         readch();
-         if (!isdigit(m_peek)) break;
-         val_f += (m_peek - '0') * weight;
-         weight /= 10.0;
-      }
-      auto key = std::to_string(val_f);
-      if (m_words.find(key) != m_words.end()) {
-         return m_words[key];
+      if (m_words.find(number) != m_words.end()) return m_words[number];
+
+      if (number.find('.') != std::string::npos) {
+         m_words[number] = std::make_shared<Float>(number.c_str());
+         return m_words[number];
       }
       else {
-         m_words[key] = std::make_shared<Float>(val_f);
-         return m_words[key];
+         m_words[number] = std::make_shared<Integer>(number.c_str());
+         return m_words[number];
       }
    }
 

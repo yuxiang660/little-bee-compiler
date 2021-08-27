@@ -50,8 +50,8 @@ LexerTestCase lexer_test_cases[] = {
    { "bool",     LBC::Tag::BASIC,    "bool"     },
    { "char",     LBC::Tag::BASIC,    "char"     },
    { "var",      LBC::Tag::SYMBOL,   "var"      },
-   { "0123",     LBC::Tag::INTEGER,  "123"      },
-   { "0.123",    LBC::Tag::REAL,     "0.123"    }
+   { "0123",     LBC::Tag::INTEGER,  "0123"     },
+   { "0.1230",   LBC::Tag::REAL,     "0.1230"   }
 };
 
 struct LexerTest : public testing::TestWithParam<LexerTestCase> {};
