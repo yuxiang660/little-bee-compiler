@@ -1,4 +1,4 @@
-#include "internal/node.h"
+#include "parser/node.h"
 
 namespace LBC
 {

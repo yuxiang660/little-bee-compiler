@@ -1,6 +1,6 @@
 #include "lexer/lexer.h"
 #include "lexer/token.h"
-#include "internal/node.h"
+#include "parser/node.h"
 #include "internal/error.h"
 #include <gtest/gtest.h>
 
