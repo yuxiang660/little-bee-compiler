@@ -108,7 +108,7 @@ private:
 };
 
 TEST(ParserExprTest, ExpectedLog) {
-   std::string text = "1+2*5+7";
+   std::string text = "1+2*5/3+7";
    std::istringstream iss(text);
    LBC::Lexer lex(iss);
    ParserExpr parser = ParserExpr(lex);
