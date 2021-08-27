@@ -16,8 +16,44 @@ public:
    explicit Parser(Lexer& l, std::ostream& out = std::cout);
 
 public:
+   /*
+    * Desc:
+    *    "expr" is the arithmetic expression which can be deduced to a number.
+    *    It supports "+, -, *, / , ()".
+    * Grammar:
+    *    expr -> term rest
+    *    rest -> + term rest
+    *          | - term rest
+    *          | ε
+    */
    NodePtr expr();
+
+   /*
+    * Desc:
+    *    "term" is the MUL and DIV expression which can be deduced to a number.
+    *    It supports "*, / , ()".
+    * Grammar:
+    *    term -> unary rest
+    *    rest -> * unary rest
+    *          | / unary rest
+    *          | ε
+    */
    NodePtr term();
+
+   /*
+    * Desc:
+    *    "unary" is an unary expression. It supports "-, !, ()".
+    * Grammar:
+    *    unary -> !unary | -unary | factor
+    */
+   NodePtr unary();
+
+   /*
+    * Desc:
+    *    "factor" is a number, or an expression with "()".
+    * Grammar:
+    *    factor -> (expr) | digital
+    */
    NodePtr factor();
 
 private:

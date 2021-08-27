@@ -1,6 +1,7 @@
 #pragma once
 
 #include "lexer/token.h"
+#include "lexer/tag.h"
 
 #include <memory>
 #include <iostream>
@@ -22,8 +23,9 @@ class NodeFactory
 {
 public:
    static NodePtr make_node(TokenPtr token);
-   static NodePtr make_arith_node(NodePtr op, NodePtr lhs, NodePtr rhs);
    static NodePtr make_temp_node();
+   static NodePtr make_arith_node(NodePtr op, NodePtr lhs, NodePtr rhs);
+   static NodePtr make_unary_node(Tag tag, NodePtr unary);
 };
 
 class Node: public NodeInterface

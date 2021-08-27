@@ -1,5 +1,6 @@
 #include "parser/parser.h"
 #include "parser/arith.h"
+#include "parser/unary.h"
 
 namespace LBC
 {
@@ -22,13 +23,25 @@ NodePtr Parser::expr() {
 }
 
 NodePtr Parser::term() {
-   auto node = factor();
+   auto node = unary();
    while (m_look->get_tag() == Tag::MUL || m_look->get_tag() == Tag::DIV) {
       auto op =  NodeFactory::make_node(m_look);
       match(2, Tag::MUL, Tag::DIV);
-      node = ArithGen(op, node, factor(), m_out).program();
+      node = ArithGen(op, node, unary(), m_out).program();
    }
    return node;
+}
+
+NodePtr Parser::unary() {
+   if (m_look->get_tag() == Tag::SUB /* Take SUB as MINUX here */) {
+      match(1, Tag::SUB);
+      return UnaryGen(Tag::MINUS, unary(), m_out).program();
+   }
+   else if (m_look->get_tag() == Tag::NOT) {
+      match(1, Tag::NOT);
+      return UnaryGen(Tag::NOT, unary(), m_out).program();
+   }
+   return factor();
 }
 
 NodePtr Parser::factor() {
