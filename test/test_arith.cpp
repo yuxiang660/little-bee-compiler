@@ -4,6 +4,7 @@
 #include "internal/error.h"
 #include <gtest/gtest.h>
 
+#include <cassert>
 #include <cstdarg>
 #include <memory>
 #include <iostream>
@@ -96,15 +97,32 @@ private:
    }
 
    NodePtr arith(NodePtr op, NodePtr lhs, NodePtr rhs) {
-      if (typeid(*lhs.get()) == typeid(Node)) {
-         std::string code = lhs->to_string() + " " + op->to_string() + " " + rhs->to_string();
-         return NodeFactory::make_arith_node(code.c_str());
+      if (typeid(*lhs.get()) == typeid(Node) && typeid(*rhs.get()) == typeid(Node)) {
+         std::string arith_code = lhs->to_string() + " " + op->to_string() + " " + rhs->to_string();
+         return NodeFactory::make_arith_node(arith_code.c_str());
       }
 
+      if (typeid(*lhs.get()) == typeid(ArithNode) && typeid(*rhs.get()) == typeid(ArithNode)) {
+         auto l_node = NodeFactory::make_temp_node();
+         m_out << l_node->to_string() << " = " << lhs->to_string() << std::endl;
+         auto r_node = NodeFactory::make_temp_node();
+         m_out << r_node->to_string() << " = " << rhs->to_string() << std::endl;
+         std::string arith_code = l_node->to_string() + " " + op->to_string() + " " + r_node->to_string();
+         return NodeFactory::make_arith_node(arith_code.c_str());
+      }
+
+      if (typeid(*lhs.get()) == typeid(ArithNode)) {
+         auto node = NodeFactory::make_temp_node();
+         m_out << node->to_string() << " = " << lhs->to_string() << std::endl;
+         std::string arith_code = node->to_string() + " " + op->to_string() + " " + rhs->to_string();
+         return NodeFactory::make_arith_node(arith_code.c_str());
+      }
+
+      assert(typeid(*rhs.get()) == typeid(ArithNode));
       auto node = NodeFactory::make_temp_node();
-      m_out << node->to_string() << " = " << lhs->to_string() << " " << op->to_string()
-                << " " << rhs->to_string() << std::endl;
-      return node;
+      m_out << node->to_string() << " = " << rhs->to_string() << std::endl;
+      std::string arith_code = lhs->to_string() + " " + op->to_string() + " " + node->to_string();
+      return NodeFactory::make_arith_node(arith_code.c_str());
    }
 
 private:
@@ -114,11 +132,20 @@ private:
 };
 
 TEST(ParserExprTest, ExpectedLog) {
-   std::string text = "1+2";
-   std::istringstream iss(text);
-   LBC::Lexer lex(iss);
-   ParserExpr parser = ParserExpr(lex);
-   parser.prog();
+   std::vector<std::string> test_text {
+      "1+2",
+      "1+3-5",
+      "9+1*4+3/5-1"
+   };
+   for (auto text : test_text) {
+      std::cout << "-------- Input Text ---------" << std::endl;
+      std::cout << text << std::endl;
+      std::istringstream iss(text);
+      LBC::Lexer lex(iss);
+      ParserExpr parser = ParserExpr(lex);
+      std::cout << "-------- Output Text ---------" << std::endl;
+      parser.prog();
+   }
 }
 
 }

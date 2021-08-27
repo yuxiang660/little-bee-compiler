@@ -39,7 +39,7 @@ std::string ArithNode::to_string() const
 int TempNode::s_temp_id = 0;
 
 TempNode::TempNode() :
-   m_id(s_temp_id)
+   m_id(++s_temp_id)
 {}
 
 std::string TempNode::to_string() const
