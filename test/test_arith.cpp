@@ -15,11 +15,12 @@ using namespace LBC;
 namespace
 {
 
-class ParserAddSud
+class ParserExpr
 {
 public:
-   explicit ParserAddSud(Lexer& l):
+   explicit ParserExpr(Lexer& l, std::ostream& out = std::cout):
       m_lex(l),
+      m_out(out),
       m_look(m_lex.scan())
    {
    }
@@ -40,7 +41,7 @@ public:
        * factor -> digital
       */
       auto node = expr();
-      std::cout << node->to_string() << std::endl;
+      m_out << node->to_string() << std::endl;
    }
 
 private:
@@ -95,21 +96,22 @@ private:
 
    NodePtr arith(NodePtr op, NodePtr lhs, NodePtr rhs) {
       auto node = NodeFactory::make_temp_node();
-      std::cout << node->to_string() << " = " << lhs->to_string() << " " << op->to_string()
+      m_out << node->to_string() << " = " << lhs->to_string() << " " << op->to_string()
                 << " " << rhs->to_string() << std::endl;
       return node;
    }
 
 private:
    Lexer& m_lex;
+   std::ostream& m_out;
    TokenPtr m_look;
 };
 
-TEST(TestAddSud, ExpectedLog) {
+TEST(ParserExprTest, ExpectedLog) {
    std::string text = "1+2*5+7";
    std::istringstream iss(text);
    LBC::Lexer lex(iss);
-   ParserAddSud parser = ParserAddSud(lex);
+   ParserExpr parser = ParserExpr(lex);
    parser.prog();
 }
 
