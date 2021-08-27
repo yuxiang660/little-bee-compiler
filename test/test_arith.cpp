@@ -17,6 +17,55 @@ using namespace LBC;
 namespace
 {
 
+class GenInterface
+{
+public:
+   virtual ~GenInterface() = default;
+};
+
+class Gen: public GenInterface
+{
+public:
+   explicit Gen(std::ostream& out):
+      m_out(out)
+   {}
+
+protected:
+   std::ostream& m_out;
+};
+
+class ArithGen: public Gen
+{
+public:
+   ArithGen(NodePtr op, NodePtr lhs, NodePtr rhs, std::ostream& out):
+      Gen(out),
+      m_op(op),
+      m_lhs(lhs),
+      m_rhs(rhs)
+   {}
+
+   NodePtr program()
+   {
+      return NodeFactory::make_arith_node(m_op, gen_arith_code(m_lhs), gen_arith_code(m_rhs));
+   }
+
+private:
+   NodePtr gen_arith_code(NodePtr node) {
+      if (typeid(*node.get()) == typeid(ArithNode)) {
+         auto temp_node = NodeFactory::make_temp_node();
+         m_out << temp_node->to_string() << " = " << node->to_string() << std::endl;
+         return temp_node;
+      }
+
+      return node;
+   }
+
+private:
+   NodePtr m_op;
+   NodePtr m_lhs;
+   NodePtr m_rhs;
+};
+
 class ParserExpr
 {
 public:
@@ -52,7 +101,7 @@ private:
       while (m_look->get_tag() == Tag::ADD || m_look->get_tag() == Tag::SUB) {
          auto op = NodeFactory::make_node(m_look);
          match(2, Tag::ADD, Tag::SUB);
-         node = arith(op, node, term());
+         node = ArithGen(op, node, term(), m_out).program();
       }
       return node;
    }
@@ -62,7 +111,7 @@ private:
       while (m_look->get_tag() == Tag::MUL || m_look->get_tag() == Tag::DIV) {
          auto op =  NodeFactory::make_node(m_look);
          match(2, Tag::MUL, Tag::DIV);
-         node = arith(op, node, factor());
+         node = ArithGen(op, node, factor(), m_out).program();
       }
       return node;
    }
