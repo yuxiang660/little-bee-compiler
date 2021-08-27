@@ -8,6 +8,7 @@
 #include <memory>
 #include <iostream>
 #include <sstream>
+#include <typeinfo>
 
 
 using namespace LBC;
@@ -95,6 +96,11 @@ private:
    }
 
    NodePtr arith(NodePtr op, NodePtr lhs, NodePtr rhs) {
+      if (typeid(*lhs.get()) == typeid(Node)) {
+         std::string code = lhs->to_string() + " " + op->to_string() + " " + rhs->to_string();
+         return NodeFactory::make_arith_node(code.c_str());
+      }
+
       auto node = NodeFactory::make_temp_node();
       m_out << node->to_string() << " = " << lhs->to_string() << " " << op->to_string()
                 << " " << rhs->to_string() << std::endl;
@@ -108,7 +114,7 @@ private:
 };
 
 TEST(ParserExprTest, ExpectedLog) {
-   std::string text = "1+2*5/3+7";
+   std::string text = "1+2";
    std::istringstream iss(text);
    LBC::Lexer lex(iss);
    ParserExpr parser = ParserExpr(lex);
