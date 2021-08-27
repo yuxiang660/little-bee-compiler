@@ -18,14 +18,23 @@ public:
 
 typedef std::shared_ptr<NodeInterface> NodePtr;
 
+class NodeFactory
+{
+public:
+   static NodePtr make_node(TokenPtr token);
+   static NodePtr make_node(const char* code);
+   static NodePtr make_temp_node();
+};
+
 class Node: public NodeInterface
 {
 public:
    explicit Node(TokenPtr token);
+   explicit Node(const char* code);
    std::string to_string() const;
 
 private:
-   TokenPtr m_token;
+   std::string m_gen_code;
 };
 
 }

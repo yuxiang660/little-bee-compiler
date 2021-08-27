@@ -1,6 +1,6 @@
 #include "lexer/lexer.h"
 #include "lexer/token.h"
-#include "lexer/temp.h"
+#include "internal/node.h"
 #include "internal/error.h"
 #include <gtest/gtest.h>
 
@@ -39,32 +39,33 @@ public:
        *         | ε
        * factor -> digital
       */
-      expr();
+      auto node = expr();
+      std::cout << node->to_string() << std::endl;
    }
 
 private:
-   TokenPtr expr() {
+   NodePtr expr() {
       auto node = term();
       while (m_look->get_tag() == Tag::ADD || m_look->get_tag() == Tag::SUB) {
-         auto op = m_look;
+         auto op = NodeFactory::make_node(m_look);
          match(2, Tag::ADD, Tag::SUB);
          node = arith(op, node, term());
       }
       return node;
    }
 
-   TokenPtr term() {
+   NodePtr term() {
       auto node = factor();
       while (m_look->get_tag() == Tag::MUL || m_look->get_tag() == Tag::DIV) {
-         auto op = m_look;
+         auto op =  NodeFactory::make_node(m_look);
          match(2, Tag::MUL, Tag::DIV);
          node = arith(op, node, factor());
       }
       return node;
    }
 
-   TokenPtr factor() {
-      auto node = m_look;
+   NodePtr factor() {
+      auto node =  NodeFactory::make_node(m_look);
       match(2, Tag::INTEGER, Tag::REAL);
       return node;
    }
@@ -92,10 +93,10 @@ private:
       m_look = m_lex.scan();
    }
 
-   TokenPtr arith(const TokenPtr& op, const TokenPtr& l_operand, const TokenPtr& r_operand) {
-      auto node = std::make_shared<Temp>();
-      std::cout << node->get_lexeme() << " = " << l_operand->get_lexeme() << " " << op->get_lexeme()
-                << " " << r_operand->get_lexeme() << std::endl;
+   NodePtr arith(NodePtr op, NodePtr lhs, NodePtr rhs) {
+      auto node = NodeFactory::make_temp_node();
+      std::cout << node->to_string() << " = " << lhs->to_string() << " " << op->to_string()
+                << " " << rhs->to_string() << std::endl;
       return node;
    }
 
