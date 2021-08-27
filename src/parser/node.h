@@ -33,32 +33,23 @@ public:
    std::string to_string() const;
 
 private:
-   std::string m_gen_code;
+   std::string m_lexeme;
 };
 
-class ArithNode: public NodeInterface
+class GenInterface
 {
 public:
-   ArithNode(NodePtr op, NodePtr lhs, NodePtr rhs);
-   std::string to_string() const;
-
-private:
-   NodePtr m_op;
-   NodePtr m_lhs;
-   NodePtr m_rhs;
+   virtual ~GenInterface() = default;
 };
 
-class TempNode: public NodeInterface
+class NodeGen: public GenInterface
 {
 public:
-   static int s_temp_id;
+   explicit NodeGen(std::ostream& out);
 
-public:
-   TempNode();
-   std::string to_string() const;
-
-private:
-   int m_id;
+protected:
+   std::ostream& m_out;
 };
+
 
 }
