@@ -1,4 +1,5 @@
 #include "parser/temp.h"
+#include "lexer/tag.h"
 
 #include <memory>
 
@@ -19,6 +20,11 @@ TempNode::TempNode() :
 std::string TempNode::to_string() const
 {
    return "t" + std::to_string(m_id);
+}
+
+Tag TempNode::get_type() const
+{
+   return Tag::TEMP;
 }
 
 }

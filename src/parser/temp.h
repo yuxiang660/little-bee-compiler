@@ -15,6 +15,7 @@ public:
 public:
    TempNode();
    std::string to_string() const;
+   Tag get_type() const;
 
 private:
    int m_id;

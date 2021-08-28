@@ -13,6 +13,7 @@ class UnaryNode: public NodeInterface
 public:
    UnaryNode(Tag tag, NodePtr unary);
    std::string to_string() const;
+   Tag get_type() const;
 
 private:
    Tag m_tag;

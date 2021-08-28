@@ -1,6 +1,7 @@
 #pragma once
 
 #include "parser/node.h"
+#include "lexer/tag.h"
 
 #include <string>
 
@@ -12,6 +13,7 @@ class ArithNode: public NodeInterface
 public:
    ArithNode(NodePtr op, NodePtr lhs, NodePtr rhs);
    std::string to_string() const;
+   Tag get_type() const;
 
 private:
    NodePtr m_op;

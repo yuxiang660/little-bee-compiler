@@ -14,6 +14,7 @@ class NodeInterface
 {
 public:
    virtual std::string to_string() const = 0;
+   virtual Tag get_type() const = 0;
    virtual ~NodeInterface() = default;
 };
 
@@ -33,9 +34,11 @@ class Node: public NodeInterface
 public:
    explicit Node(TokenPtr token);
    std::string to_string() const;
+   Tag get_type() const;
 
 private:
    std::string m_lexeme;
+   Tag m_type;
 };
 
 class GenInterface

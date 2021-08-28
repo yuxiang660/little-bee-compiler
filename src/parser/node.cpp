@@ -9,12 +9,18 @@ NodePtr NodeFactory::make_node(TokenPtr token)
 }
 
 Node::Node(TokenPtr token) :
-   m_lexeme(token->get_lexeme())
+   m_lexeme(token->get_lexeme()),
+   m_type(token->get_tag())
 {}
 
 std::string Node::to_string() const
 {
    return m_lexeme;
+}
+
+Tag Node::get_type() const
+{
+   return m_type;
 }
 
 NodeGen::NodeGen(std::ostream& out):
