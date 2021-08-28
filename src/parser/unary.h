@@ -11,27 +11,24 @@ namespace LBC
 class UnaryNode: public NodeInterface
 {
 public:
-   UnaryNode(Tag tag, NodePtr unary);
+   UnaryNode(Tag unary_op, NodePtr unary_val);
    std::string to_string() const;
    Type get_type() const;
 
 private:
-   Tag m_tag;
-   NodePtr m_unary;
+   Tag m_op;
+   NodePtr m_val;
 };
 
 class UnaryGen: public NodeGen
 {
 public:
-   UnaryGen(Tag tag, NodePtr unary, std::ostream& out);
+   UnaryGen(Tag unary_op, NodePtr unary_val, std::ostream& out);
    NodePtr program();
 
 private:
-   NodePtr gen_unary_code(NodePtr node);
-
-private:
-   Tag m_tag;
-   NodePtr m_unary;
+   Tag m_op;
+   NodePtr m_val;
 };
 
 }
