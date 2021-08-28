@@ -110,7 +110,7 @@ public:
    NodePtr factor();
 
 private:
-   void match(int count, ...);
+   void move_ahead(int count, ...);
 
 private:
    Lexer& m_lex;
