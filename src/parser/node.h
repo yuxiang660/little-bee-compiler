@@ -26,6 +26,7 @@ public:
    static NodePtr make_node(TokenPtr token, Type type = Type::NOTYPE);
    static NodePtr make_temp_node(Type type);
    static NodePtr make_arith_node(NodePtr op, NodePtr lhs, NodePtr rhs);
+   static NodePtr make_rel_node(NodePtr op, NodePtr lhs, NodePtr rhs);
    static NodePtr make_unary_node(Tag unary_op, NodePtr unary_val);
 };
 

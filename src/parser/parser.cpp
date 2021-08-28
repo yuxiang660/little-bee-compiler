@@ -1,5 +1,6 @@
 #include "parser/parser.h"
 #include "parser/arith.h"
+#include "parser/rel.h"
 #include "parser/unary.h"
 
 #include <cassert>
@@ -12,6 +13,25 @@ Parser::Parser(Lexer& l, std::ostream& out):
    m_out(out),
    m_look(m_lex.scan())
 {
+}
+
+NodePtr Parser::rel() {
+   auto node = expr();
+   // "<, <=, >, >="
+   switch (m_look->get_tag())
+   {
+   case Tag::LESS:
+   case Tag::LE:
+   case Tag::GREAT:
+   case Tag::GE:
+   {
+      auto op = NodeFactory::make_node(m_look);
+      match(4, Tag::LESS, Tag::LE, Tag::GREAT, Tag::GE);
+      return RelGen(op, node, expr(), m_out).program();
+   }
+   default:
+      return node;
+   }
 }
 
 NodePtr Parser::expr() {
