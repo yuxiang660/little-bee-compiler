@@ -22,7 +22,7 @@ NodePtr ArithGen::program(std::ostream& out) const
 NodePtr ArithGen::gen_arith_code(NodePtr node, std::ostream& out) const {
    if (typeid(*node.get()) == typeid(ArithNode)) {
       auto temp_node = std::make_shared<TempNode>(node->get_type());
-      out << temp_node->to_string() << " = " << node->to_string() << std::endl;
+      out << "\t" << temp_node->to_string() << " = " << node->to_string() << std::endl;
       return temp_node;
    }
 

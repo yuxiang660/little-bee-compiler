@@ -21,7 +21,7 @@ TEST(ParserTest, Boolean_ExpectedLog) {
       auto parser = LBC::Parser(lex);
       std::cout << "-------- Output Text ---------" << std::endl;
       auto node = parser.boolean();
-      std::cout << node->to_string() << std::endl;
+      std::cout << "\t" << node->to_string() << std::endl;
    }
 }
 
@@ -40,7 +40,7 @@ TEST(DISABLED_ParserTest, Equality_ExpectedLog) {
       auto parser = LBC::Parser(lex);
       std::cout << "-------- Output Text ---------" << std::endl;
       auto node = parser.equality();
-      std::cout << node->to_string() << std::endl;
+      std::cout << "\t" << node->to_string() << std::endl;
    }
 }
 
@@ -59,7 +59,7 @@ TEST(DISABLED_ParserTest, Rel_ExpectedLog) {
       auto parser = LBC::Parser(lex);
       std::cout << "-------- Output Text ---------" << std::endl;
       auto node = parser.rel();
-      std::cout << node->to_string() << std::endl;
+      std::cout << "\t" << node->to_string() << std::endl;
    }
 }
 
@@ -83,7 +83,7 @@ TEST(DISABLED_ParserTest, Expr_ExpectedLog) {
       auto parser = LBC::Parser(lex);
       std::cout << "-------- Output Text ---------" << std::endl;
       auto node = parser.expr();
-      std::cout << node->to_string() << std::endl;
+      std::cout << "\t" << node->to_string() << std::endl;
    }
 }
 
@@ -101,7 +101,7 @@ TEST(DISABLED_ParserTest, Unary_ExpectedLog) {
       auto parser = LBC::Parser(lex);
       std::cout << "-------- Output Text ---------" << std::endl;
       auto node = parser.unary();
-      std::cout << node->to_string() << std::endl;
+      std::cout << "\t" << node->to_string() << std::endl;
    }
 }
 

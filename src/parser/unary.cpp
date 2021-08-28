@@ -39,7 +39,7 @@ NodePtr UnaryGen::program(std::ostream& out) const
 {
    auto unary_node = std::make_shared<UnaryNode>(m_op, m_val);
    auto temp_node = std::make_shared<TempNode>(unary_node->get_type());
-   out << temp_node->to_string() << " = " << unary_node->to_string() << std::endl;
+   out << "\t" << temp_node->to_string() << " = " << unary_node->to_string() << std::endl;
    return temp_node;
 }
 
