@@ -2,10 +2,16 @@
 #include <parser/arith.h>
 #include <parser/temp.h>
 
+#include <cassert>
 #include <memory>
 
 namespace LBC
 {
+
+Type RelNode::get_type() const {
+   assert(m_lhs->get_type() == m_rhs->get_type());
+   return Type::BOOL;
+}
 
 RelGen::RelGen(NodePtr op, NodePtr lhs, NodePtr rhs):
    m_op(op),

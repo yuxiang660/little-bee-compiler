@@ -12,7 +12,7 @@ class RelNode: public OpNode
 {
 public:
    RelNode(NodePtr op, NodePtr lhs, NodePtr rhs): OpNode(op, lhs, rhs) {}
-   Type get_type() const { return Type::BOOL; }
+   Type get_type() const;
 };
 
 
