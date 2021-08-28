@@ -29,7 +29,7 @@ TEST(ParserTest, Expr_ExpectedLog) {
       "1",
       "1+-2",
       "1+!!2",
-      "1+!-!2",
+      "1+!-(!2)",
       "1 + 2 * (5 + 6) + 4"
    };
    for (auto text : test_text) {

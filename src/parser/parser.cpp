@@ -67,7 +67,7 @@ NodePtr Parser::factor() {
    }
 
    std::ostringstream oss;
-   oss << "Unexpected token: " << m_look->get_lexeme() << std::endl;
+   oss << "Unexpected token in the expression: " << m_look->get_lexeme() << std::endl;
    throw Exception(ERR_PARSER_UNEXPECTED_TOKEN, oss.str().c_str());
    return nullptr;
 }
