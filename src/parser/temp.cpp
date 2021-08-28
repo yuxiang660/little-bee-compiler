@@ -22,9 +22,9 @@ std::string TempNode::to_string() const
    return "t" + std::to_string(m_id);
 }
 
-Tag TempNode::get_type() const
+Type TempNode::get_type() const
 {
-   return Tag::TEMP;
+   return Type::NOTYPE;
 }
 
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "lexer/token.h"
-#include "lexer/tag.h"
+#include "parser/type.h"
 
 #include <memory>
 #include <iostream>
@@ -14,7 +14,7 @@ class NodeInterface
 {
 public:
    virtual std::string to_string() const = 0;
-   virtual Tag get_type() const = 0;
+   virtual Type get_type() const = 0;
    virtual ~NodeInterface() = default;
 };
 
@@ -23,7 +23,7 @@ typedef std::shared_ptr<NodeInterface> NodePtr;
 class NodeFactory
 {
 public:
-   static NodePtr make_node(TokenPtr token);
+   static NodePtr make_node(TokenPtr token, Type type = Type::NOTYPE);
    static NodePtr make_temp_node();
    static NodePtr make_arith_node(NodePtr op, NodePtr lhs, NodePtr rhs);
    static NodePtr make_unary_node(Tag tag, NodePtr unary);
@@ -32,13 +32,13 @@ public:
 class Node: public NodeInterface
 {
 public:
-   explicit Node(TokenPtr token);
+   explicit Node(TokenPtr token, Type type);
    std::string to_string() const;
-   Tag get_type() const;
+   Type get_type() const;
 
 private:
    std::string m_lexeme;
-   Tag m_type;
+   Type m_type;
 };
 
 class GenInterface

@@ -2,6 +2,8 @@
 #include "parser/arith.h"
 #include "parser/unary.h"
 
+#include <cassert>
+
 namespace LBC
 {
 
@@ -45,8 +47,15 @@ NodePtr Parser::unary() {
 }
 
 NodePtr Parser::factor() {
-   auto node =  NodeFactory::make_node(m_look);
-   match(2, Tag::INTEGER, Tag::REAL);
+   if (m_look->get_tag() == Tag::INTEGER) {
+      auto node = NodeFactory::make_node(m_look, Type::INT);
+      match(1, Tag::INTEGER);
+      return node;
+   }
+
+   assert(m_look->get_tag() == Tag::REAL);
+   auto node =  NodeFactory::make_node(m_look, Type::FLOAT);
+   match(1, Tag::REAL);
    return node;
 }
 

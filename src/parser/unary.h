@@ -1,7 +1,7 @@
 #pragma once
 
 #include "parser/node.h"
-#include "lexer/tag.h"
+#include "parser/type.h"
 
 #include <string>
 
@@ -13,7 +13,7 @@ class UnaryNode: public NodeInterface
 public:
    UnaryNode(Tag tag, NodePtr unary);
    std::string to_string() const;
-   Tag get_type() const;
+   Type get_type() const;
 
 private:
    Tag m_tag;

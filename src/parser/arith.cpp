@@ -23,7 +23,7 @@ std::string ArithNode::to_string() const
    return m_lhs->to_string() + " " + m_op->to_string() + " " + m_rhs->to_string();
 }
 
-Tag ArithNode::get_type() const
+Type ArithNode::get_type() const
 {
    assert(m_lhs->get_type() == m_rhs->get_type());
    return m_lhs->get_type();

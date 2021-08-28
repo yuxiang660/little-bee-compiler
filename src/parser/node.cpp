@@ -3,14 +3,14 @@
 namespace LBC
 {
 
-NodePtr NodeFactory::make_node(TokenPtr token)
+NodePtr NodeFactory::make_node(TokenPtr token, Type type)
 {
-   return std::make_shared<Node>(token);
+   return std::make_shared<Node>(token, type);
 }
 
-Node::Node(TokenPtr token) :
+Node::Node(TokenPtr token, Type type) :
    m_lexeme(token->get_lexeme()),
-   m_type(token->get_tag())
+   m_type(type)
 {}
 
 std::string Node::to_string() const
@@ -18,7 +18,7 @@ std::string Node::to_string() const
    return m_lexeme;
 }
 
-Tag Node::get_type() const
+Type Node::get_type() const
 {
    return m_type;
 }

@@ -26,9 +26,9 @@ std::string UnaryNode::to_string() const
    return minus_str + " " + m_unary->to_string();
 }
 
-Tag UnaryNode::get_type() const
+Type UnaryNode::get_type() const
 {
-   if (m_tag == Tag::NOT) return Tag::BOOL;
+   if (m_tag == Tag::NOT) return Type::BOOL;
 
    assert(m_tag == Tag::MINUS);
    return m_unary->get_type();

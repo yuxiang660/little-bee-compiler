@@ -1,7 +1,6 @@
 #include "lexer/lexer.h"
 #include "lexer/num.h"
 #include "lexer/token.h"
-#include "lexer/type.h"
 #include "internal/error.h"
 
 #include <cctype>
@@ -70,14 +69,10 @@ void Lexer::init_keywords()
    insert_keyword("{", Tag::LBRACE);
    insert_keyword("}", Tag::RBRACE);
    insert_keyword("EOF", Tag::STOP);
-
-   auto insert_type = [&words = this->m_words](const Type& type) {
-      words[type.get_lexeme()] = std::make_shared<Type>(type.get_lexeme().c_str(), type.get_tag(), type.get_width());
-   };
-   insert_type(INT_TYPE);
-   insert_type(FLOAT_TYPE);
-   insert_type(CHAR_TYPE);
-   insert_type(BOOL_TYPE);
+   insert_keyword("int", Tag::INT);
+   insert_keyword("float", Tag::FLOAT);
+   insert_keyword("bool", Tag::BOOL);
+   insert_keyword("char", Tag::CHAR);
 }
 
 TokenPtr Lexer::scan()

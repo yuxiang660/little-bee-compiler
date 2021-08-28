@@ -1,6 +1,7 @@
 #pragma once
 
 #include "parser/node.h"
+#include "parser/type.h"
 
 #include <string>
 
@@ -15,7 +16,7 @@ public:
 public:
    TempNode();
    std::string to_string() const;
-   Tag get_type() const;
+   Type get_type() const;
 
 private:
    int m_id;
