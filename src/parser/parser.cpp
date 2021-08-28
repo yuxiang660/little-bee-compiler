@@ -53,10 +53,23 @@ NodePtr Parser::factor() {
       return node;
    }
 
-   assert(m_look->get_tag() == Tag::REAL);
-   auto node =  NodeFactory::make_node(m_look, Type::FLOAT);
-   match(1, Tag::REAL);
-   return node;
+   if (m_look->get_tag() == Tag::REAL) {
+      auto node =  NodeFactory::make_node(m_look, Type::FLOAT);
+      match(1, Tag::REAL);
+      return node;
+   }
+
+   if (m_look->get_tag() == Tag::LBRACKET) {
+      match(1, Tag::LBRACKET);
+      auto node = expr();
+      match(1, Tag::RBRACKET);
+      return node;
+   }
+
+   std::ostringstream oss;
+   oss << "Unexpected token: " << m_look->get_lexeme() << std::endl;
+   throw Exception(ERR_PARSER_UNEXPECTED_TOKEN, oss.str().c_str());
+   return nullptr;
 }
 
 void Parser::match(int count, ...) {
