@@ -20,7 +20,7 @@ NodePtr Parser::equality() {
    if (m_look->get_tag() == Tag::EQ || m_look->get_tag() == Tag::NE) {
       auto op = Node::make_node(m_look);
       match(2, Tag::EQ, Tag::NE);
-      //node = EqGen(op, node, rel()).program(m_out);
+      node = RelGen(op, node, rel()).program(m_out);
    }
    return node;
 }

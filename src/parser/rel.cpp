@@ -22,13 +22,13 @@ RelGen::RelGen(NodePtr op, NodePtr lhs, NodePtr rhs):
 NodePtr RelGen::program(std::ostream& out) const
 {
    NodePtr lhs = m_lhs;
-   if (typeid(*m_lhs.get()) == typeid(ArithNode)) {
+   if (typeid(*m_lhs.get()) == typeid(ArithNode) || typeid(*m_lhs.get()) == typeid(RelNode)) {
       lhs = std::make_shared<TempNode>(m_lhs->get_type());
       out << lhs->to_string() << " = " << m_lhs->to_string() << std::endl;
    }
 
    NodePtr rhs = m_rhs;
-   if (typeid(*m_rhs.get()) == typeid(ArithNode)) {
+   if (typeid(*m_rhs.get()) == typeid(ArithNode) || typeid(*m_rhs.get()) == typeid(RelNode)) {
       rhs = std::make_shared<TempNode>(m_rhs->get_type());
       out << rhs->to_string() << " = " << m_rhs->to_string() << std::endl;
    }
