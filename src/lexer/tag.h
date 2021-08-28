@@ -31,6 +31,8 @@ enum class Tag
    CHAR,    // char
    BOOL,    // bool
    // Single char
+   SEMI,    // ;
+   COMMA,   // ,
    ADD,     // +
    SUB,     // -
    MUL,     // *

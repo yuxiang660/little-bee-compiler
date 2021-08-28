@@ -7,6 +7,22 @@
 
 namespace
 {
+
+TEST(ParserTest, Block_ExpectedLog) {
+   std::vector<std::string> test_text {
+      "{int a; a = 1+1+2;}"
+   };
+   for (auto text : test_text) {
+      std::cout << "-------- Input Text ---------" << std::endl;
+      std::cout << text << std::endl;
+      std::istringstream iss(text);
+      LBC::Lexer lex(iss);
+      auto parser = LBC::Parser(lex);
+      std::cout << "-------- Output Text ---------" << std::endl;
+      auto node = parser.block();
+   }
+}
+
 TEST(ParserTest, Boolean_ExpectedLog) {
    std::vector<std::string> test_text {
       "1 && 2 || 3 && 4",
@@ -25,7 +41,7 @@ TEST(ParserTest, Boolean_ExpectedLog) {
    }
 }
 
-TEST(DISABLED_ParserTest, Equality_ExpectedLog) {
+TEST(ParserTest, Equality_ExpectedLog) {
    std::vector<std::string> test_text {
       "1+2 != 4",
       "1-2 == 3+1",
@@ -44,7 +60,7 @@ TEST(DISABLED_ParserTest, Equality_ExpectedLog) {
    }
 }
 
-TEST(DISABLED_ParserTest, Rel_ExpectedLog) {
+TEST(ParserTest, Rel_ExpectedLog) {
    std::vector<std::string> test_text {
       "1+2 < 4",
       "1-2 <= 3+1",
@@ -63,7 +79,7 @@ TEST(DISABLED_ParserTest, Rel_ExpectedLog) {
    }
 }
 
-TEST(DISABLED_ParserTest, Expr_ExpectedLog) {
+TEST(ParserTest, Expr_ExpectedLog) {
    std::vector<std::string> test_text {
       "1+2",
       "1+2*4",
@@ -87,7 +103,7 @@ TEST(DISABLED_ParserTest, Expr_ExpectedLog) {
    }
 }
 
-TEST(DISABLED_ParserTest, Unary_ExpectedLog) {
+TEST(ParserTest, Unary_ExpectedLog) {
    std::vector<std::string> test_text {
       "--1",
       "!!1",

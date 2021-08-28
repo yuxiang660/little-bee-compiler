@@ -1,5 +1,7 @@
 #pragma once
 
+#include "lexer/tag.h"
+
 namespace LBC
 {
 

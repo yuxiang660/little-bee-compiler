@@ -2,8 +2,12 @@
 #include "parser/arith.h"
 #include "parser/rel.h"
 #include "parser/unary.h"
+#include "parser/type.h"
+#include "parser/symbol.h"
+#include "env/env.h"
 
 #include <cassert>
+#include <memory>
 
 namespace LBC
 {
@@ -11,8 +15,73 @@ namespace LBC
 Parser::Parser(Lexer& l, std::ostream& out):
    m_lex(l),
    m_out(out),
+   m_cur_env(nullptr),
    m_look(m_lex.scan())
 {
+}
+
+NodePtr Parser::block() {
+   match(1, Tag::LBRACE);
+   EnvPtr saved_env = m_cur_env;
+   m_cur_env = std::make_shared<Env>(m_cur_env);
+   NodePtr node = stmts();
+   match(1, Tag::RBRACE);
+   m_cur_env = saved_env;
+   return node;
+}
+
+static bool is_type_tag(Tag t) {
+   return (t == Tag::INT  || t == Tag::FLOAT || t == Tag::BOOL || t == Tag::CHAR);
+}
+
+void Parser::decls() {
+   while (is_type_tag(m_look->get_tag())) {
+      Type type = Node::get_tag_type(m_look->get_tag());
+      match(4, Tag::INT, Tag::FLOAT, Tag::BOOL, Tag::CHAR);
+      while (true) {
+         if (m_cur_env->is_redefine(m_look)) {
+            std::ostringstream oss;
+            oss << m_look->get_lexeme() << " is redefined in this scope" << std::endl;
+            throw Exception(ERR_PARSER_REDEFINE, oss.str().c_str());
+         }
+         NodePtr symbol = std::make_shared<SymbolNode>(m_look->get_lexeme().c_str(), type);
+         m_cur_env->put(m_look, symbol);
+         match(1, Tag::SYMBOL);
+         if (m_look->get_tag() == Tag::SEMI) {
+            match(1, Tag::SEMI);
+            break;
+         }
+         else {
+            match(1, Tag::COMMA);
+         }
+      }
+   }
+}
+
+NodePtr Parser::stmts() {
+   if (is_type_tag(m_look->get_tag())) decls();
+   return assign();
+}
+
+NodePtr Parser::assign() {
+   if (m_look->get_tag() == Tag::SYMBOL) {
+      auto symbol = m_cur_env->get(m_look);
+      if (symbol.get() == nullptr) {
+         std::ostringstream oss;
+         oss << m_look->get_lexeme() << " is not defined" << std::endl;
+         throw Exception(ERR_PARSER_NODEFINE, oss.str().c_str());
+      }
+      match(1, Tag::SYMBOL);
+      if (m_look->get_tag() == Tag::ASSIGN) {
+         auto op = Node::make_node(m_look);
+         match(1, Tag::ASSIGN);
+         auto node = boolean();
+         m_out << '\t' << symbol->to_string() << " " << op->to_string() << " " << node->to_string() << std::endl;
+         match(1, Tag::SEMI);
+         return nullptr;
+      }
+   }
+   return boolean();
 }
 
 NodePtr Parser::boolean() {
@@ -98,13 +167,13 @@ NodePtr Parser::unary() {
 
 NodePtr Parser::factor() {
    if (m_look->get_tag() == Tag::INTEGER) {
-      auto node = Node::make_node(m_look, Type::INT);
+      auto node = Node::make_node(m_look);
       match(1, Tag::INTEGER);
       return node;
    }
 
    if (m_look->get_tag() == Tag::REAL) {
-      auto node =  Node::make_node(m_look, Type::FLOAT);
+      auto node =  Node::make_node(m_look);
       match(1, Tag::REAL);
       return node;
    }

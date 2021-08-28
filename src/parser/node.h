@@ -23,7 +23,9 @@ typedef std::shared_ptr<NodeInterface> NodePtr;
 class Node: public NodeInterface
 {
 public:
-   static NodePtr make_node(TokenPtr token, Type type = Type::NOTYPE);
+   static NodePtr make_node(TokenPtr token);
+   static Type get_tag_type(Tag t);
+
 public:
    explicit Node(TokenPtr token, Type type);
    std::string to_string() const;

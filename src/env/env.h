@@ -14,13 +14,20 @@ typedef std::unordered_map<TokenPtr, NodePtr> SymbolMap;
 class Env : public std::enable_shared_from_this<Env>
 {
 public:
-   explicit Env(std::shared_ptr<const Env> prev_env);
+   static int s_level;
+
+public:
+   explicit Env(std::shared_ptr<Env> prev_env);
    void put(TokenPtr token, NodePtr symbol);
+   bool is_redefine(TokenPtr token) const;
    NodePtr get(TokenPtr token) const;
 
 private:
-   std::shared_ptr<const Env> m_prev_env;
+   int m_level;
+   std::shared_ptr<Env> m_prev_env;
    SymbolMap m_table;
 };
+
+typedef std::shared_ptr<Env> EnvPtr;
 
 }

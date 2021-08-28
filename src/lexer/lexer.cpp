@@ -52,6 +52,8 @@ void Lexer::init_keywords()
    insert_keyword("!=", Tag::NE);
    insert_keyword("<=", Tag::LE);
    insert_keyword(">=", Tag::GE);
+   insert_keyword(";", Tag::SEMI);
+   insert_keyword(",", Tag::COMMA);
    insert_keyword("+", Tag::ADD);
    insert_keyword("-", Tag::SUB);
    insert_keyword("*", Tag::MUL);

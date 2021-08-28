@@ -1,15 +1,31 @@
 #include "env/env.h"
+#include "parser/symbol.h"
+
+#include <cassert>
+#include <memory>
 
 namespace LBC
 {
 
-Env::Env(std::shared_ptr<const Env> prev_env):
+int Env::s_level = 0;
+
+Env::Env(std::shared_ptr<Env> prev_env):
+   m_level(s_level++),
    m_prev_env(prev_env)
 {}
 
 void Env::put(TokenPtr token, NodePtr symbol)
 {
+   auto s = std::dynamic_pointer_cast<SymbolNode>(symbol);
+   assert(s.get() != nullptr);
+   s->set_env_level(m_level);
    m_table[token] = symbol;
+}
+
+bool Env::is_redefine(TokenPtr token) const
+{
+   auto found = m_table.find(token);
+   return found != m_table.end();
 }
 
 NodePtr Env::get(TokenPtr token) const

@@ -3,6 +3,7 @@
 #include "parser/node.h"
 #include "lexer/lexer.h"
 #include "internal/error.h"
+#include "env/env.h"
 
 #include <cstdarg>
 #include <iostream>
@@ -16,6 +17,11 @@ public:
    explicit Parser(Lexer& l, std::ostream& out = std::cout);
 
 public:
+   NodePtr block();
+   void decls();
+   NodePtr stmts();
+   NodePtr assign();
+
    /*
     * Desc:
     *    "boolean" connects two join(&&) expressions with OR operator "&||".
@@ -109,6 +115,7 @@ private:
 private:
    Lexer& m_lex;
    std::ostream& m_out;
+   EnvPtr m_cur_env;
    TokenPtr m_look;
 };
 
