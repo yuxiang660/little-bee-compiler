@@ -22,11 +22,11 @@ private:
 };
 
 
-class RelGen: public NodeGen
+class RelGen: public GenInterface
 {
 public:
-   RelGen(NodePtr op, NodePtr lhs, NodePtr rhs, std::ostream& out);
-   NodePtr program();
+   RelGen(NodePtr op, NodePtr lhs, NodePtr rhs);
+   NodePtr program(std::ostream& out) const;
 
 private:
    NodePtr m_op;

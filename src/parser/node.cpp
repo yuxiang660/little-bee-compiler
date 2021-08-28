@@ -23,8 +23,4 @@ Type Node::get_type() const
    return m_type;
 }
 
-NodeGen::NodeGen(std::ostream& out):
-   m_out(out)
-{}
-
 }

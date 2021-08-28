@@ -20,7 +20,7 @@ NodePtr Parser::equality() {
    if (m_look->get_tag() == Tag::EQ || m_look->get_tag() == Tag::NE) {
       auto op = Node::make_node(m_look);
       match(2, Tag::EQ, Tag::NE);
-      //node = EqGen(op, node, rel(), m_out).program();
+      //node = EqGen(op, node, rel()).program(m_out);
    }
    return node;
 }
@@ -37,7 +37,7 @@ NodePtr Parser::rel() {
    {
       auto op = Node::make_node(m_look);
       match(4, Tag::LESS, Tag::LE, Tag::GREAT, Tag::GE);
-      return RelGen(op, node, expr(), m_out).program();
+      return RelGen(op, node, expr()).program(m_out);
    }
    default:
       return node;
@@ -49,7 +49,7 @@ NodePtr Parser::expr() {
    while (m_look->get_tag() == Tag::ADD || m_look->get_tag() == Tag::SUB) {
       auto op = Node::make_node(m_look);
       match(2, Tag::ADD, Tag::SUB);
-      node = ArithGen(op, node, term(), m_out).program();
+      node = ArithGen(op, node, term()).program(m_out);
    }
    return node;
 }
@@ -59,7 +59,7 @@ NodePtr Parser::term() {
    while (m_look->get_tag() == Tag::MUL || m_look->get_tag() == Tag::DIV) {
       auto op =  Node::make_node(m_look);
       match(2, Tag::MUL, Tag::DIV);
-      node = ArithGen(op, node, unary(), m_out).program();
+      node = ArithGen(op, node, unary()).program(m_out);
    }
    return node;
 }
@@ -67,11 +67,11 @@ NodePtr Parser::term() {
 NodePtr Parser::unary() {
    if (m_look->get_tag() == Tag::SUB /* Take SUB as MINUX here */) {
       match(1, Tag::SUB);
-      return UnaryGen(Tag::MINUS, unary(), m_out).program();
+      return UnaryGen(Tag::MINUS, unary()).program(m_out);
    }
    else if (m_look->get_tag() == Tag::NOT) {
       match(1, Tag::NOT);
-      return UnaryGen(Tag::NOT, unary(), m_out).program();
+      return UnaryGen(Tag::NOT, unary()).program(m_out);
    }
    return factor();
 }

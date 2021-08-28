@@ -37,17 +37,8 @@ private:
 class GenInterface
 {
 public:
+   virtual NodePtr program(std::ostream& out) const = 0;
    virtual ~GenInterface() = default;
 };
-
-class NodeGen: public GenInterface
-{
-public:
-   explicit NodeGen(std::ostream& out);
-
-protected:
-   std::ostream& m_out;
-};
-
 
 }

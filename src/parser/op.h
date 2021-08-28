@@ -8,29 +8,26 @@
 namespace LBC
 {
 
-class ArithNode: public NodeInterface
+class OpNode: public NodeInterface
 {
 public:
-   ArithNode(NodePtr op, NodePtr lhs, NodePtr rhs);
+   OpNode(NodePtr op, NodePtr lhs, NodePtr rhs);
    std::string to_string() const;
    Type get_type() const;
 
-private:
+protected:
    NodePtr m_op;
    NodePtr m_lhs;
    NodePtr m_rhs;
 };
 
-class ArithGen: public GenInterface
+class OpGen: public GenInterface
 {
 public:
-   ArithGen(NodePtr op, NodePtr lhs, NodePtr rhs);
+   OpGen(NodePtr op, NodePtr lhs, NodePtr rhs);
    NodePtr program(std::ostream& out) const;
 
-private:
-   NodePtr gen_arith_code(NodePtr node, std::ostream& out) const;
-
-private:
+protected:
    NodePtr m_op;
    NodePtr m_lhs;
    NodePtr m_rhs;

@@ -20,11 +20,11 @@ private:
    NodePtr m_val;
 };
 
-class UnaryGen: public NodeGen
+class UnaryGen: public GenInterface
 {
 public:
-   UnaryGen(Tag unary_op, NodePtr unary_val, std::ostream& out);
-   NodePtr program();
+   UnaryGen(Tag unary_op, NodePtr unary_val);
+   NodePtr program(std::ostream& out) const;
 
 private:
    Tag m_op;

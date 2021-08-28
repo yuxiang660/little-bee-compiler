@@ -30,17 +30,16 @@ Type UnaryNode::get_type() const
    return m_val->get_type();
 }
 
-UnaryGen::UnaryGen(Tag unary_op, NodePtr unary_val, std::ostream& out):
-   NodeGen(out),
+UnaryGen::UnaryGen(Tag unary_op, NodePtr unary_val):
    m_op(unary_op),
    m_val(unary_val)
 {}
 
-NodePtr UnaryGen::program()
+NodePtr UnaryGen::program(std::ostream& out) const
 {
    auto unary_node = std::make_shared<UnaryNode>(m_op, m_val);
    auto temp_node = std::make_shared<TempNode>(unary_node->get_type());
-   m_out << temp_node->to_string() << " = " << unary_node->to_string() << std::endl;
+   out << temp_node->to_string() << " = " << unary_node->to_string() << std::endl;
    return temp_node;
 }
 
