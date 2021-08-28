@@ -1,6 +1,6 @@
 #pragma once
 
-#include "parser/node.h"
+#include "parser/op.h"
 #include "parser/type.h"
 
 #include <string>
@@ -8,17 +8,11 @@
 namespace LBC
 {
 
-class RelNode: public NodeInterface
+class RelNode: public OpNode
 {
 public:
-   RelNode(NodePtr op, NodePtr lhs, NodePtr rhs);
-   std::string to_string() const;
-   Type get_type() const;
-
-private:
-   NodePtr m_op;
-   NodePtr m_lhs;
-   NodePtr m_rhs;
+   RelNode(NodePtr op, NodePtr lhs, NodePtr rhs): OpNode(op, lhs, rhs) {}
+   Type get_type() const { return Type::BOOL; }
 };
 
 

@@ -8,23 +8,6 @@
 namespace LBC
 {
 
-ArithNode::ArithNode(NodePtr op, NodePtr lhs, NodePtr rhs):
-   m_op(op),
-   m_lhs(lhs),
-   m_rhs(rhs)
-{}
-
-std::string ArithNode::to_string() const
-{
-   return m_lhs->to_string() + " " + m_op->to_string() + " " + m_rhs->to_string();
-}
-
-Type ArithNode::get_type() const
-{
-   assert(m_lhs->get_type() == m_rhs->get_type());
-   return m_lhs->get_type();
-}
-
 ArithGen::ArithGen(NodePtr op, NodePtr lhs, NodePtr rhs):
    m_op(op),
    m_lhs(lhs),

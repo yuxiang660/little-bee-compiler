@@ -7,23 +7,6 @@
 namespace LBC
 {
 
-RelNode::RelNode(NodePtr op, NodePtr lhs, NodePtr rhs):
-   m_op(op),
-   m_lhs(lhs),
-   m_rhs(rhs)
-{}
-
-std::string RelNode::to_string() const
-{
-   return m_lhs->to_string() + " " + m_op->to_string() + " " + m_rhs->to_string();
-}
-
-Type RelNode::get_type() const
-{
-   return Type::BOOL;
-}
-
-
 RelGen::RelGen(NodePtr op, NodePtr lhs, NodePtr rhs):
    m_op(op),
    m_lhs(lhs),

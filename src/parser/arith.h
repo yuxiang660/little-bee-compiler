@@ -1,6 +1,6 @@
 #pragma once
 
-#include "parser/node.h"
+#include "parser/op.h"
 #include "parser/type.h"
 
 #include <string>
@@ -8,17 +8,10 @@
 namespace LBC
 {
 
-class ArithNode: public NodeInterface
+class ArithNode: public OpNode
 {
 public:
-   ArithNode(NodePtr op, NodePtr lhs, NodePtr rhs);
-   std::string to_string() const;
-   Type get_type() const;
-
-private:
-   NodePtr m_op;
-   NodePtr m_lhs;
-   NodePtr m_rhs;
+   ArithNode(NodePtr op, NodePtr lhs, NodePtr rhs): OpNode(op, lhs, rhs) {}
 };
 
 class ArithGen: public GenInterface

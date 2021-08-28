@@ -24,15 +24,4 @@ Type OpNode::get_type() const
    return m_lhs->get_type();
 }
 
-OpGen::OpGen(NodePtr op, NodePtr lhs, NodePtr rhs):
-   m_op(op),
-   m_lhs(lhs),
-   m_rhs(rhs)
-{}
-
-NodePtr OpGen::program(std::ostream&) const
-{
-   return std::make_shared<OpNode>(m_op, m_lhs, m_rhs);
-}
-
 }
