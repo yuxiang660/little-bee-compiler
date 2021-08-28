@@ -15,6 +15,26 @@ Parser::Parser(Lexer& l, std::ostream& out):
 {
 }
 
+NodePtr Parser::boolean() {
+   auto node = join();
+   while (m_look->get_tag() == Tag::OR) {
+      auto op = Node::make_node(m_look);
+      match(1, Tag::OR);
+      node = RelGen(op, node, join()).program(m_out);
+   }
+   return node;
+}
+
+NodePtr Parser::join() {
+   auto node = equality();
+   while (m_look->get_tag() == Tag::AND) {
+      auto op = Node::make_node(m_look);
+      match(1, Tag::AND);
+      node = RelGen(op, node, equality()).program(m_out);
+   }
+   return node;
+}
+
 NodePtr Parser::equality() {
    auto node = rel();
    if (m_look->get_tag() == Tag::EQ || m_look->get_tag() == Tag::NE) {

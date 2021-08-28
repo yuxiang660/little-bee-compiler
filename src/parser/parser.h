@@ -18,13 +18,32 @@ public:
 public:
    /*
     * Desc:
+    *    "boolean" connects two join(&&) expressions with OR operator "&||".
+    *    It handles "||".
+    * Grammar:
+    *    boolean -> join rest
+    *       rest -> || join rest
+    *             | ε
+    */
+   NodePtr boolean();
+
+   /*
+    * Desc:
+    *    "join" connects two equalities with AND operator "&&".
+    *    It handles "&&".
+    * Grammar:
+    *    join -> equality rest
+    *    rest -> && equality rest
+    *          | ε
+    */
+   NodePtr join();
+
+   /*
+    * Desc:
     *    "equality" is compare operation between two exrpression
     *    It handles "==, !=".
     * Grammar:
-    *    equality -> rel rest
-    *        rest -> == rel rest
-    *              | != rel rest
-    *              | ε
+    *    equality -> rel == rel | rel != rel | rel
     */
    NodePtr equality();
 
