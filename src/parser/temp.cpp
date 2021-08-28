@@ -6,14 +6,15 @@
 namespace LBC
 {
 
-NodePtr NodeFactory::make_temp_node()
+NodePtr NodeFactory::make_temp_node(Type type)
 {
-   return std::make_shared<TempNode>();
+   return std::make_shared<TempNode>(type);
 }
 
 int TempNode::s_temp_id = 0;
 
-TempNode::TempNode() :
+TempNode::TempNode(Type type) :
+   m_type(type),
    m_id(++s_temp_id)
 {}
 
@@ -24,7 +25,7 @@ std::string TempNode::to_string() const
 
 Type TempNode::get_type() const
 {
-   return Type::NOTYPE;
+   return m_type;
 }
 
 }

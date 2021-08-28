@@ -14,11 +14,12 @@ public:
    static int s_temp_id;
 
 public:
-   TempNode();
+   explicit TempNode(Type type);
    std::string to_string() const;
    Type get_type() const;
 
 private:
+   Type m_type;
    int m_id;
 };
 

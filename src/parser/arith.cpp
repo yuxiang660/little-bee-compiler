@@ -43,7 +43,7 @@ NodePtr ArithGen::program()
 
 NodePtr ArithGen::gen_arith_code(NodePtr node) {
    if (typeid(*node.get()) == typeid(ArithNode)) {
-      auto temp_node = NodeFactory::make_temp_node();
+      auto temp_node = NodeFactory::make_temp_node(node->get_type());
       m_out << temp_node->to_string() << " = " << node->to_string() << std::endl;
       return temp_node;
    }

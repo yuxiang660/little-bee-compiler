@@ -43,7 +43,7 @@ UnaryGen::UnaryGen(Tag unary_op, NodePtr unary_val, std::ostream& out):
 NodePtr UnaryGen::program()
 {
    auto unary_node = NodeFactory::make_unary_node(m_op, m_val);
-   auto temp_node = NodeFactory::make_temp_node();
+   auto temp_node = NodeFactory::make_temp_node(unary_node->get_type());
    m_out << temp_node->to_string() << " = " << unary_node->to_string() << std::endl;
    return temp_node;
 }
