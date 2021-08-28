@@ -6,7 +6,6 @@ namespace LBC
 enum class Tag
 {
    AND,     // &&
-   BASIC,   // int, float, char, bool
    BREAK,   // break
    DO,      // do
    ELSE,    // else
@@ -27,6 +26,10 @@ enum class Tag
    TRUE,    // true
    WHILE,   // while
    CONTINUE,// continue
+   INT,     // int
+   FLOAT,   // float
+   CHAR,    // char
+   BOOL,    // bool
    // Single char
    ADD,     // +
    SUB,     // -
@@ -40,8 +43,10 @@ enum class Tag
    BITOR,   // |
    LINDEX,  // [
    RINDEX,  // ]
-   LBRACK,  // (
-   RBRACK   // )
+   LBRACKET,// (
+   RBRACKET,// )
+   LBRACE,  // {
+   RBRACE,  // }
 };
 
 }

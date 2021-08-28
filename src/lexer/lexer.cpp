@@ -65,12 +65,14 @@ void Lexer::init_keywords()
    insert_keyword("|", Tag::BITOR);
    insert_keyword("[", Tag::LINDEX);
    insert_keyword("]", Tag::RINDEX);
-   insert_keyword("(", Tag::LBRACK);
-   insert_keyword(")", Tag::RBRACK);
+   insert_keyword("(", Tag::LBRACKET);
+   insert_keyword(")", Tag::RBRACKET);
+   insert_keyword("{", Tag::LBRACE);
+   insert_keyword("}", Tag::RBRACE);
    insert_keyword("EOF", Tag::STOP);
 
    auto insert_type = [&words = this->m_words](const Type& type) {
-      words[type.get_lexeme()] = std::make_shared<Type>(type.get_lexeme().c_str(), type.get_width());
+      words[type.get_lexeme()] = std::make_shared<Type>(type.get_lexeme().c_str(), type.get_tag(), type.get_width());
    };
    insert_type(INT_TYPE);
    insert_type(FLOAT_TYPE);
