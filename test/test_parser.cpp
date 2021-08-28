@@ -29,7 +29,8 @@ TEST(ParserTest, Expr_ExpectedLog) {
       "9+1*4/3/5-1",
       "1",
       "1+-2",
-      "1+!!2"
+      "1+!!2",
+      "1+!-!2"
    };
    for (auto text : test_text) {
       std::cout << "-------- Input Text ---------" << std::endl;
