@@ -7,10 +7,10 @@
 namespace LBC
 {
 
-int Env::s_level = 0;
+int Env::s_id = 0;
 
 Env::Env(std::shared_ptr<Env> prev_env):
-   m_level(s_level++),
+   m_id(s_id++),
    m_prev_env(prev_env)
 {}
 
@@ -18,7 +18,7 @@ void Env::put(TokenPtr token, NodePtr symbol)
 {
    auto s = std::dynamic_pointer_cast<SymbolNode>(symbol);
    assert(s.get() != nullptr);
-   s->set_env_level(m_level);
+   s->set_env(m_id);
    m_table[token] = symbol;
 }
 

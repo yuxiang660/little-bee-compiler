@@ -14,7 +14,7 @@ typedef std::unordered_map<TokenPtr, NodePtr> SymbolMap;
 class Env : public std::enable_shared_from_this<Env>
 {
 public:
-   static int s_level;
+   static int s_id;
 
 public:
    explicit Env(std::shared_ptr<Env> prev_env);
@@ -23,7 +23,7 @@ public:
    NodePtr get(TokenPtr token) const;
 
 private:
-   int m_level;
+   int m_id;
    std::shared_ptr<Env> m_prev_env;
    SymbolMap m_table;
 };
