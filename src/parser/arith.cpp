@@ -1,4 +1,5 @@
 #include "parser/arith.h"
+#include "parser/temp.h"
 
 #include <cassert>
 #include <memory>
@@ -6,11 +7,6 @@
 
 namespace LBC
 {
-
-NodePtr NodeFactory::make_arith_node(NodePtr op, NodePtr lhs, NodePtr rhs)
-{
-   return std::make_shared<ArithNode>(op, lhs, rhs);
-}
 
 ArithNode::ArithNode(NodePtr op, NodePtr lhs, NodePtr rhs):
    m_op(op),
@@ -38,12 +34,12 @@ ArithGen::ArithGen(NodePtr op, NodePtr lhs, NodePtr rhs, std::ostream& out):
 
 NodePtr ArithGen::program()
 {
-   return NodeFactory::make_arith_node(m_op, gen_arith_code(m_lhs), gen_arith_code(m_rhs));
+   return std::make_shared<ArithNode>(m_op, gen_arith_code(m_lhs), gen_arith_code(m_rhs));
 }
 
 NodePtr ArithGen::gen_arith_code(NodePtr node) {
    if (typeid(*node.get()) == typeid(ArithNode)) {
-      auto temp_node = NodeFactory::make_temp_node(node->get_type());
+      auto temp_node = std::make_shared<TempNode>(node->get_type());
       m_out << temp_node->to_string() << " = " << node->to_string() << std::endl;
       return temp_node;
    }

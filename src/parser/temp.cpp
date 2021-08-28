@@ -6,11 +6,6 @@
 namespace LBC
 {
 
-NodePtr NodeFactory::make_temp_node(Type type)
-{
-   return std::make_shared<TempNode>(type);
-}
-
 int TempNode::s_temp_id = 0;
 
 TempNode::TempNode(Type type) :

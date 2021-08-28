@@ -1,15 +1,11 @@
 #include <parser/rel.h>
 #include <parser/arith.h>
+#include <parser/temp.h>
 
 #include <memory>
 
 namespace LBC
 {
-
-NodePtr NodeFactory::make_rel_node(NodePtr op, NodePtr lhs, NodePtr rhs)
-{
-   return std::make_shared<RelNode>(op, lhs, rhs);
-}
 
 RelNode::RelNode(NodePtr op, NodePtr lhs, NodePtr rhs):
    m_op(op),
@@ -39,17 +35,17 @@ NodePtr RelGen::program()
 {
    NodePtr lhs = m_lhs;
    if (typeid(*m_lhs.get()) == typeid(ArithNode)) {
-      lhs = NodeFactory::make_temp_node(m_lhs->get_type());
+      lhs = std::make_shared<TempNode>(m_lhs->get_type());
       m_out << lhs->to_string() << " = " << m_lhs->to_string() << std::endl;
    }
 
    NodePtr rhs = m_rhs;
    if (typeid(*m_rhs.get()) == typeid(ArithNode)) {
-      rhs = NodeFactory::make_temp_node(m_rhs->get_type());
+      rhs = std::make_shared<TempNode>(m_rhs->get_type());
       m_out << rhs->to_string() << " = " << m_rhs->to_string() << std::endl;
    }
 
-   return NodeFactory::make_rel_node(m_op, lhs, rhs);
+   return std::make_shared<RelNode>(m_op, lhs, rhs);
 }
 
 }

@@ -18,16 +18,27 @@ public:
 public:
    /*
     * Desc:
+    *    "equality" is compare operation between two exrpression
+    *    It handles "==, !=".
+    * Grammar:
+    *    equality -> rel rest
+    *        rest -> == rel rest
+    *              | != rel rest
+    *              | ε
+    */
+   NodePtr equality();
+
+   /*
+    * Desc:
     *    "rel" is relative operation between two exrpression, which can be deduced to relative
     *    operation between two numbers.
     *    It handles "<, <=, >, >=".
     * Grammar:
-    *    rel -> expr rest
-    *    rest -> <  expr rest
-    *          | <= expr rest
-    *          | >  expr rest
-    *          | >= expr rest
-    *          | ε
+    *    rel -> expr <  expr
+    *         | expr <= expr
+    *         | expr >  expr
+    *         | expr >= expr
+    *         | expr
     */
    NodePtr rel();
 

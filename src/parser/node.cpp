@@ -3,7 +3,7 @@
 namespace LBC
 {
 
-NodePtr NodeFactory::make_node(TokenPtr token, Type type)
+NodePtr Node::make_node(TokenPtr token, Type type)
 {
    return std::make_shared<Node>(token, type);
 }
