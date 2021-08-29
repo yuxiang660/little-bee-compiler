@@ -44,15 +44,11 @@ void Parser::block(bool is_outermost) {
    stmts();
    m_cur_env = saved_env;
 
-   if (is_outermost) {
-      // stop scan token here
-      if (m_look->get_tag() != Tag::RBRACE) {
-         throw Exception(ERR_PARSER_UNEXPECTED_TOKEN, m_look->err_message().c_str());
-      }
-   }
-   else {
-      move_ahead(1, Tag::RBRACE);
-   }
+   if (!is_outermost) move_ahead(1, Tag::RBRACE);
+
+   // Stop scanning since the block is outermost
+   if (m_look->get_tag() != Tag::RBRACE)
+      throw Exception(ERR_PARSER_UNEXPECTED_TOKEN, m_look->err_message().c_str());
 }
 
 void Parser::decls() {

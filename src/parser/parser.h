@@ -30,7 +30,7 @@ public:
    /*
     * Desc:
     *    "block" starts with "{" token, ends with "}" token.
-    *    It handles "{", "}".
+    *    It handles "{", "}", to create new env symbols and parse statements in this block.
     * Grammar:
     *    block -> { decls stmts }
     */
@@ -38,7 +38,7 @@ public:
 
    /*
     * Desc:
-    *    "decls" is declaration statements.
+    *    "decls" is declaration statements in a block.
     *    It handles "type id;".
     * Grammar:
     *    decls -> decl decls
@@ -51,11 +51,11 @@ public:
 
    /*
     * Desc:
-    *    "stmts" parses all other statements in one block after declaration.
-    *    It handles different statements, such as if/while/block statement.
+    *    "stmts" parses all other statements in a block after declaration.
+    *    It handles different statements, such as if/while/block statements.
     * Grammar:
     *    stmts -> stmt stmts
-    *           | ε
+    *           | ε (if current token is "}", it means no more statements any more)
     *     stmt -> 
     *           | if (boolean) stmt
     *           | if (boolean) stmt else stmt
