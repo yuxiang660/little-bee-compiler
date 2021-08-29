@@ -48,7 +48,7 @@ int Parser::block(int begin_label, bool is_outermost) {
    move_ahead(1, Tag::LBRACE);
 
    EnvPtr saved_env = m_cur_env;
-   m_cur_env = std::make_shared<Env>(m_cur_env);
+   m_cur_env = std::make_shared<Env>(m_cur_env.get());
    decls();
    next_label = stmts(next_label);
    m_cur_env = saved_env;
