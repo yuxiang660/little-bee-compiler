@@ -20,6 +20,7 @@ typedef std::shared_ptr<StmtInterface> StmtPtr;
 class Stmt: public StmtInterface
 {
 public:
+   static int s_lable_seed;
    static int gen_unique_label();
 
 public:
