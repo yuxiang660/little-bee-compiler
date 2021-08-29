@@ -160,7 +160,7 @@ public:
     *    "factor" is a number, or an expression with "()".
     *    It handles "numbers, ()"
     * Grammar:
-    *    factor -> (expr) | digital
+    *    factor -> (boolean) | digital
     */
    NodePtr factor();
 
