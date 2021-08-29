@@ -7,6 +7,7 @@
 
 #include <cstdarg>
 #include <iostream>
+#include <sstream>
 
 namespace LBC
 {
@@ -14,7 +15,8 @@ namespace LBC
 class Parser
 {
 public:
-   explicit Parser(Lexer& l, std::ostream& out = std::cout);
+   explicit Parser(Lexer& l);
+   void dump(std::ostream& out = std::cout);
 
 public:
    /*
@@ -170,8 +172,8 @@ private:
    void move_ahead(int count, ...);
 
 private:
+   std::ostringstream m_out;
    Lexer& m_lex;
-   std::ostream& m_out;
    EnvPtr m_cur_env;
    TokenPtr m_look;
 };

@@ -7,6 +7,8 @@ int main(int argc, char const *argv[])
    std::cout << "main" << std::endl;
    auto l = LBC::Lexer();
    auto parser = LBC::Parser(l);
-   return parser.program();
+   int ret = parser.program();
+   parser.dump();
+   return ret;
 }
 

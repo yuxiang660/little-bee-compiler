@@ -14,12 +14,16 @@
 namespace LBC
 {
 
-Parser::Parser(Lexer& l, std::ostream& out):
+Parser::Parser(Lexer& l):
    m_lex(l),
-   m_out(out),
    m_cur_env(nullptr),
    m_look(m_lex.scan())
 {
+}
+
+void Parser::dump(std::ostream& out)
+{
+   out << m_out.str() << std::endl;
 }
 
 int Parser::program() {
