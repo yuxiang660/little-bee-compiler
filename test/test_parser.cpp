@@ -7,6 +7,20 @@
 
 namespace
 {
+TEST(ParserTest, Program_ExpectedLog) {
+   std::vector<std::string> test_text {
+      "{int a; a=6;{int b; b=5;}}"
+   };
+   for (auto text : test_text) {
+      std::cout << "-------- Input Text ---------" << std::endl;
+      std::cout << text << std::endl;
+      std::istringstream iss(text);
+      LBC::Lexer lex(iss);
+      auto parser = LBC::Parser(lex);
+      std::cout << "-------- Output Text ---------" << std::endl;
+      auto node = parser.program();
+   }
+}
 
 TEST(ParserTest, Block_ExpectedLog) {
    std::vector<std::string> test_text {
@@ -19,7 +33,7 @@ TEST(ParserTest, Block_ExpectedLog) {
       LBC::Lexer lex(iss);
       auto parser = LBC::Parser(lex);
       std::cout << "-------- Output Text ---------" << std::endl;
-      auto node = parser.block();
+      parser.block();
    }
 }
 

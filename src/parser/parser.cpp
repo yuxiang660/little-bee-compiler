@@ -20,18 +20,39 @@ Parser::Parser(Lexer& l, std::ostream& out):
 {
 }
 
-NodePtr Parser::block() {
-   move_ahead(1, Tag::LBRACE);
-   EnvPtr saved_env = m_cur_env;
-   m_cur_env = std::make_shared<Env>(m_cur_env);
-   NodePtr node = stmts();
-   move_ahead(1, Tag::RBRACE);
-   m_cur_env = saved_env;
-   return node;
+int Parser::program() {
+   try {
+      block(true);
+   }
+   catch(const Exception& e) {
+      std::cerr << e.what() << std::endl;
+      return e.code();
+   }
+   return 0;
 }
 
 static bool is_type_tag(Tag t) {
    return (t == Tag::INT  || t == Tag::FLOAT || t == Tag::BOOL || t == Tag::CHAR);
+}
+
+void Parser::block(bool is_outermost) {
+   move_ahead(1, Tag::LBRACE);
+
+   EnvPtr saved_env = m_cur_env;
+   m_cur_env = std::make_shared<Env>(m_cur_env);
+   decls();
+   stmts();
+   m_cur_env = saved_env;
+
+   if (is_outermost) {
+      // stop scan token here
+      if (m_look->get_tag() != Tag::RBRACE) {
+         throw Exception(ERR_PARSER_UNEXPECTED_TOKEN, m_look->err_message().c_str());
+      }
+   }
+   else {
+      move_ahead(1, Tag::RBRACE);
+   }
 }
 
 void Parser::decls() {
@@ -39,12 +60,11 @@ void Parser::decls() {
       Type type = Node::get_tag_type(m_look->get_tag());
       move_ahead(4, Tag::INT, Tag::FLOAT, Tag::BOOL, Tag::CHAR);
       while (true) {
-         if (m_cur_env->is_redefine(m_look)) {
-            std::ostringstream oss;
-            oss << m_look->get_lexeme() << " is redefined in this scope" << std::endl;
-            throw Exception(ERR_PARSER_REDEFINE, oss.str().c_str());
-         }
          NodePtr symbol = std::make_shared<SymbolNode>(m_look->get_lexeme().c_str(), type);
+         if (m_cur_env->is_redefine(m_look)) {
+            throw Exception(ERR_PARSER_REDEFINE, m_look->err_message().c_str());
+         }
+
          m_cur_env->put(m_look, symbol);
          move_ahead(1, Tag::SYMBOL);
          if (m_look->get_tag() == Tag::SEMI) {
@@ -58,30 +78,56 @@ void Parser::decls() {
    }
 }
 
-NodePtr Parser::stmts() {
-   if (is_type_tag(m_look->get_tag())) decls();
-   return assign();
-}
-
-NodePtr Parser::assign() {
-   if (m_look->get_tag() == Tag::SYMBOL) {
-      auto symbol = m_cur_env->get(m_look);
-      if (symbol.get() == nullptr) {
-         std::ostringstream oss;
-         oss << m_look->get_lexeme() << " is not defined" << std::endl;
-         throw Exception(ERR_PARSER_NODEFINE, oss.str().c_str());
-      }
-      move_ahead(1, Tag::SYMBOL);
-      if (m_look->get_tag() == Tag::ASSIGN) {
-         auto op = Node::make_node(m_look);
-         move_ahead(1, Tag::ASSIGN);
-         auto node = boolean();
-         m_out << '\t' << symbol->to_string() << " " << op->to_string() << " " << node->to_string() << std::endl;
+void Parser::stmts() {
+   bool end = false;
+   while (!end) {
+      // one statement
+      switch (m_look->get_tag())
+      {
+      case Tag::SEMI:
+      {
          move_ahead(1, Tag::SEMI);
-         return nullptr;
+         break;
+      }
+      case Tag::LBRACE:
+      {
+         block();
+         break;
+      }
+      case Tag::RBRACE:
+      {
+         end = true;
+         break;
+      }
+      case Tag::SYMBOL:
+      {
+         assign();
+         break;
+      }
+      default:
+      {
+         // TODO: report error here since a statement cannot start with boolean expression
+         auto node = boolean();
+         m_out << "\t" << node->to_string() << std::endl;
+         break;
+      }
       }
    }
-   return boolean();
+}
+
+void Parser::assign() {
+   auto symbol = m_cur_env->get(m_look);
+   if (symbol.get() == nullptr) {
+      throw Exception(ERR_PARSER_NODEFINE, m_look->err_message().c_str());
+   }
+   move_ahead(1, Tag::SYMBOL);
+
+   // TODO: refine assignment output
+   auto op = Node::make_node(m_look);
+   move_ahead(1, Tag::ASSIGN);
+   auto node = boolean();
+   m_out << '\t' << symbol->to_string() << " " << op->to_string() << " " << node->to_string() << std::endl;
+   move_ahead(1, Tag::SEMI);
 }
 
 NodePtr Parser::boolean() {
@@ -180,35 +226,31 @@ NodePtr Parser::factor() {
 
    if (m_look->get_tag() == Tag::LBRACKET) {
       move_ahead(1, Tag::LBRACKET);
-      auto node = expr();
+      auto node = boolean();
       move_ahead(1, Tag::RBRACKET);
       return node;
    }
 
-   std::ostringstream oss;
-   oss << "Unexpected token in the expression: " << m_look->get_lexeme() << std::endl;
-   throw Exception(ERR_PARSER_UNEXPECTED_TOKEN, oss.str().c_str());
+   throw Exception(ERR_PARSER_UNEXPECTED_TOKEN, m_look->err_message().c_str());
    return nullptr;
 }
 
 void Parser::move_ahead(int count, ...) {
-   bool is_move_ahead = false;
+   bool is_match = false;
 
    std::va_list args;
    va_start(args, count);
    for (int i = 0; i < count; ++i) {
       Tag expected_tag = va_arg(args, Tag);
       if (m_look->get_tag() == expected_tag) {
-         is_move_ahead = true;
+         is_match = true;
          break;
       }
    }
    va_end(args);
 
-   if (!is_move_ahead) {
-      std::ostringstream oss;
-      oss << "Unexpected token: " << m_look->get_lexeme() << std::endl;
-      throw Exception(ERR_PARSER_UNEXPECTED_TOKEN, oss.str().c_str());
+   if (!is_match) {
+      throw Exception(ERR_PARSER_UNEXPECTED_TOKEN, m_look->err_message().c_str());
    }
 
    m_look = m_lex.scan();

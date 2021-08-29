@@ -14,6 +14,7 @@ class TokenInterface
 public:
    virtual Tag get_tag() const = 0;
    virtual std::string get_lexeme() const = 0;
+   virtual std::string err_message() const = 0;
    virtual ~TokenInterface() = default;
 };
 
@@ -25,6 +26,7 @@ public:
    Token(const char* lexeme, Tag t);
    Tag get_tag() const;
    std::string get_lexeme() const;
+   std::string err_message() const;
 
 private:
    const std::string m_lexeme;

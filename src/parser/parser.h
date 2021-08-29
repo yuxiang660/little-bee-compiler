@@ -17,10 +17,65 @@ public:
    explicit Parser(Lexer& l, std::ostream& out = std::cout);
 
 public:
-   NodePtr block();
+   /*
+    * Desc:
+    *    "program" is parser top level function.
+    *    It handles exception from block() and begin/end label.
+    *    Returns error code, 0: success, other: failure.
+    * Grammar:
+    *    program -> block
+    */
+   int program();
+
+   /*
+    * Desc:
+    *    "block" starts with "{" token, ends with "}" token.
+    *    It handles "{", "}".
+    * Grammar:
+    *    block -> { decls stmts }
+    */
+   void block(bool is_outermost = false);
+
+   /*
+    * Desc:
+    *    "decls" is declaration statements.
+    *    It handles "type id;".
+    * Grammar:
+    *    decls -> decl decls
+    *           | ε
+    *     decl -> type id id_rest ;
+    *  id_rest -> , id id_rest
+    *           | ε
+    */
    void decls();
-   NodePtr stmts();
-   NodePtr assign();
+
+   /*
+    * Desc:
+    *    "stmts" parses all other statements in one block after declaration.
+    *    It handles different statements, such as if/while/block statement.
+    * Grammar:
+    *    stmts -> stmt stmts
+    *           | ε
+    *     stmt -> 
+    *           | if (boolean) stmt
+    *           | if (boolean) stmt else stmt
+    *           | while (boolean) stmts
+    *           | do stmts while (boolean);
+    *           | break;
+    *           | continue;
+    *           | block
+    *           | assign
+    */
+   void stmts();
+
+   /*
+    * Desc:
+    *    "assign" is assignment statement.
+    *    It handles "=".
+    * Grammar:
+    *    assign -> symbol = boolean ;
+    */
+   void assign();
 
    /*
     * Desc:

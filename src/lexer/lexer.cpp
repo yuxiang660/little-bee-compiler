@@ -151,7 +151,7 @@ TokenPtr Lexer::scan()
    if (m_peek == EOF) return m_words["EOF"];
 
    std::ostringstream oss;
-   oss << "Invalid character: " << m_peek << std::endl;
+   oss << "Syntax error near line " << s_line << " : "<< m_peek << std::endl;
    throw Exception(ERR_LEXER_INVALID_TOKEN, oss.str().c_str());
    return nullptr;
 }
