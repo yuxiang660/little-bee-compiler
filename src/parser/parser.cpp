@@ -6,6 +6,7 @@
 #include "parser/symbol.h"
 #include "parser/assign.h"
 #include "parser/stmt.h"
+#include "parser/if.h"
 #include "env/env.h"
 
 #include <cassert>
@@ -113,6 +114,16 @@ int Parser::stmts(int begin_label) {
       case Tag::SYMBOL:
       {
          next_label = assign(next_label);
+         break;
+      }
+      case Tag::IF:
+      {
+         move_ahead(1, Tag::IF);
+         move_ahead(1, Tag::LBRACKET);
+         int jump_label = If(next_label, boolean()).prog_stmt(m_out);
+         move_ahead(1, Tag::RBRACKET);
+         block(Stmt::gen_unique_label());
+         next_label = stmts(jump_label);
          break;
       }
       default:
@@ -224,23 +235,40 @@ NodePtr Parser::unary() {
 }
 
 NodePtr Parser::factor() {
-   if (m_look->get_tag() == Tag::INTEGER) {
+   Tag t = m_look->get_tag();
+
+   if (t== Tag::INTEGER) {
       auto node = Node::make_node(m_look);
       move_ahead(1, Tag::INTEGER);
       return node;
    }
 
-   if (m_look->get_tag() == Tag::REAL) {
+   if (t == Tag::REAL) {
       auto node =  Node::make_node(m_look);
       move_ahead(1, Tag::REAL);
       return node;
    }
 
-   if (m_look->get_tag() == Tag::LBRACKET) {
+   if (t == Tag::LBRACKET) {
       move_ahead(1, Tag::LBRACKET);
       auto node = boolean();
       move_ahead(1, Tag::RBRACKET);
       return node;
+   }
+
+   if (t == Tag::TRUE || t == Tag::FALSE) {
+      auto node = Node::make_node(m_look);
+      move_ahead(2, Tag::TRUE, Tag::FALSE);
+      return node;
+   }
+
+   if (t == Tag::SYMBOL) {
+      auto symbol = m_cur_env->get(m_look);
+      if (symbol.get() == nullptr) {
+         throw Exception(ERR_PARSER_NODEFINE, m_look->err_message().c_str());
+      }
+      move_ahead(1, Tag::SYMBOL);
+      return symbol;
    }
 
    throw Exception(ERR_PARSER_UNEXPECTED_TOKEN, m_look->err_message().c_str());

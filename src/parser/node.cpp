@@ -21,6 +21,8 @@ Type Node::get_tag_type(Tag t)
    case Tag::CHAR:
       return Type::CHAR;
    case Tag::BOOL:
+   case Tag::TRUE:
+   case Tag::FALSE:
       return Type::BOOL;
    default:
       return Type::NOTYPE;
