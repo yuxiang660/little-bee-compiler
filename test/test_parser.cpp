@@ -9,7 +9,7 @@ namespace
 {
 TEST(ParserTest, Program_ExpectedLog) {
    std::vector<std::string> test_text {
-      "{int a; a=6;{int b; b=5;}}"
+      "{int a; a=1;{int b; b=2;}}"
    };
    for (auto text : test_text) {
       std::cout << "-------- Input Text ---------" << std::endl;
@@ -34,7 +34,7 @@ TEST(ParserTest, Block_ExpectedLog) {
       LBC::Lexer lex(iss);
       auto parser = LBC::Parser(lex);
       std::cout << "-------- Output Text ---------" << std::endl;
-      parser.block();
+      parser.block(0);
    }
 }
 

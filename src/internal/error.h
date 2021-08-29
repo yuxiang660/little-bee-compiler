@@ -16,13 +16,14 @@ struct Error
 class Exception : public std::exception
 {
 public:
-   explicit Exception(Error err, const char* msg = "") : m_err(err), m_msg(msg) {}
+   explicit Exception(Error err, const char* msg = "") :
+      m_err(err),
+      m_msg("LBC::ERROR(" + std::to_string(m_err.code) + "): " + m_err.des + ". " + std::string(msg))
+   {}
 
    const char* what() const noexcept
    {
-      std::stringstream ss;
-      ss << "LBC::ERROR(" << m_err.code << "): " << m_err.des << ". " << m_msg;
-      return ss.str().c_str();
+      return m_msg.c_str();
    }
 
    int code() const noexcept

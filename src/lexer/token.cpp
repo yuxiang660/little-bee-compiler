@@ -21,7 +21,7 @@ std::string Token::get_lexeme() const
 
 std::string Token::err_message() const
 {
-   std::string msg = "Syntax error near line " + std::to_string(Lexer::s_line) + " : " + m_lexeme + "\n";
+   std::string msg = "Syntax error near line " + std::to_string(Lexer::s_line) + " : " + m_lexeme;
    return msg;
 }
 

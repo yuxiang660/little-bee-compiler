@@ -19,8 +19,7 @@ public:
 public:
    /*
     * Desc:
-    *    "program" is parser top level function.
-    *    It handles exception from block() and begin/end label.
+    *    "program" is parser top level function. It handles exception from block().
     *    Returns error code, 0: success, other: failure.
     * Grammar:
     *    program -> block
@@ -31,10 +30,11 @@ public:
     * Desc:
     *    "block" starts with "{" token, ends with "}" token.
     *    It handles "{", "}", to create new env symbols and parse statements in this block.
+    *    Returns next label number.
     * Grammar:
     *    block -> { decls stmts }
     */
-   void block(bool is_outermost = false);
+   int block(int begin_label, bool is_outermost = false);
 
    /*
     * Desc:
@@ -53,6 +53,7 @@ public:
     * Desc:
     *    "stmts" parses all other statements in a block after declaration.
     *    It handles different statements, such as if/while/block statements.
+    *    Returns next label number.
     * Grammar:
     *    stmts -> stmt stmts
     *           | ε (if current token is "}", it means no more statements any more)
@@ -66,16 +67,17 @@ public:
     *           | block
     *           | assign
     */
-   void stmts();
+   int stmts(int begin_label);
 
    /*
     * Desc:
     *    "assign" is assignment statement.
     *    It handles "=".
+    *    Returns next label number.
     * Grammar:
     *    assign -> symbol = boolean ;
     */
-   void assign();
+   int assign(int begin_label);
 
    /*
     * Desc:

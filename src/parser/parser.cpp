@@ -4,6 +4,8 @@
 #include "parser/unary.h"
 #include "parser/type.h"
 #include "parser/symbol.h"
+#include "parser/assign.h"
+#include "parser/stmt.h"
 #include "env/env.h"
 
 #include <cassert>
@@ -22,7 +24,7 @@ Parser::Parser(Lexer& l, std::ostream& out):
 
 int Parser::program() {
    try {
-      block(true);
+      block(Stmt::gen_unique_label(), true);
    }
    catch(const Exception& e) {
       std::cerr << e.what() << std::endl;
@@ -35,20 +37,27 @@ static bool is_type_tag(Tag t) {
    return (t == Tag::INT  || t == Tag::FLOAT || t == Tag::BOOL || t == Tag::CHAR);
 }
 
-void Parser::block(bool is_outermost) {
+int Parser::block(int begin_label, bool is_outermost) {
+   int next_label = begin_label;
+
    move_ahead(1, Tag::LBRACE);
 
    EnvPtr saved_env = m_cur_env;
    m_cur_env = std::make_shared<Env>(m_cur_env);
    decls();
-   stmts();
+   next_label = stmts(next_label);
    m_cur_env = saved_env;
 
-   if (!is_outermost) move_ahead(1, Tag::RBRACE);
+   if (!is_outermost) {
+      move_ahead(1, Tag::RBRACE);
+      return next_label;
+   }
 
    // Stop scanning since the block is outermost
    if (m_look->get_tag() != Tag::RBRACE)
       throw Exception(ERR_PARSER_UNEXPECTED_TOKEN, m_look->err_message().c_str());
+
+   return next_label;
 }
 
 void Parser::decls() {
@@ -74,7 +83,9 @@ void Parser::decls() {
    }
 }
 
-void Parser::stmts() {
+int Parser::stmts(int begin_label) {
+   int next_label = begin_label;
+
    bool end = false;
    while (!end) {
       // one statement
@@ -87,7 +98,7 @@ void Parser::stmts() {
       }
       case Tag::LBRACE:
       {
-         block();
+         next_label = block(next_label);
          break;
       }
       case Tag::RBRACE:
@@ -97,33 +108,34 @@ void Parser::stmts() {
       }
       case Tag::SYMBOL:
       {
-         assign();
+         next_label = assign(next_label);
          break;
       }
       default:
       {
-         // TODO: report error here since a statement cannot start with boolean expression
-         auto node = boolean();
-         m_out << "\t" << node->to_string() << std::endl;
+         throw Exception(ERR_PARSER_UNEXPECTED_TOKEN, m_look->err_message().c_str());
          break;
       }
       }
    }
+
+   return next_label;
 }
 
-void Parser::assign() {
+int Parser::assign(int begin_label) {
    auto symbol = m_cur_env->get(m_look);
    if (symbol.get() == nullptr) {
       throw Exception(ERR_PARSER_NODEFINE, m_look->err_message().c_str());
    }
    move_ahead(1, Tag::SYMBOL);
 
-   // TODO: refine assignment output
    auto op = Node::make_node(m_look);
    move_ahead(1, Tag::ASSIGN);
    auto node = boolean();
-   m_out << '\t' << symbol->to_string() << " " << op->to_string() << " " << node->to_string() << std::endl;
+   int next_label = Assign(begin_label, symbol, node).prog_stmt(m_out);
    move_ahead(1, Tag::SEMI);
+
+   return next_label;
 }
 
 NodePtr Parser::boolean() {
