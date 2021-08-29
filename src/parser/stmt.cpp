@@ -3,10 +3,11 @@
 namespace LBC
 {
 
+int Stmt::s_lable_seed = 0;
+
 int Stmt::gen_unique_label()
 {
-   static int lable_seed = 0;
-   return ++lable_seed;
+   return ++s_lable_seed;
 }
 
 Stmt::Stmt(int label):

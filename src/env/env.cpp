@@ -9,7 +9,7 @@ namespace LBC
 
 int Env::s_id = 0;
 
-Env::Env(std::shared_ptr<Env> prev_env):
+Env::Env(Env* prev_env):
    m_id(s_id++),
    m_prev_env(prev_env)
 {}
@@ -30,7 +30,7 @@ bool Env::is_redefine(TokenPtr token) const
 
 NodePtr Env::get(TokenPtr token) const
 {
-   for (auto e = shared_from_this(); e.get() != nullptr; e = m_prev_env) {
+   for (auto e = this; e != nullptr; e = m_prev_env) {
       auto found = e->m_table.find(token);
       if (found != e->m_table.end()) return found->second;
    }

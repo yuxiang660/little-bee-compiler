@@ -1,5 +1,8 @@
 #include "lexer/lexer.h"
 #include "parser/parser.h"
+#include "env/env.h"
+#include "parser/temp.h"
+#include "parser/stmt.h"
 
 #include <fstream>
 #include <iostream>
@@ -7,6 +10,14 @@
 #include <string>
 
 namespace fs = std::filesystem;
+
+static void clean_compiler()
+{
+   LBC::Env::s_id = 0;
+   LBC::Lexer::s_line = 0;
+   LBC::TempNode::s_temp_id = 0;
+   LBC::Stmt::s_lable_seed = 0;
+}
 
 int main(int argc, char const *argv[])
 {
@@ -37,6 +48,7 @@ int main(int argc, char const *argv[])
          parser.program();
          parser.dump();
          std::cout << "-------- Compiler Output End" << " --------\n";
+         clean_compiler();
       }
    }
 
