@@ -23,7 +23,7 @@ public:
    static int gen_unique_label();
 
 public:
-   Stmt(int label);
+   explicit Stmt(int label);
    int prog_stmt(std::ostream& out) const;
 
 private:
