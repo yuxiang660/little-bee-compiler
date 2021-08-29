@@ -18,7 +18,8 @@ TEST(ParserTest, Program_ExpectedLog) {
       LBC::Lexer lex(iss);
       auto parser = LBC::Parser(lex);
       std::cout << "-------- Output Text ---------" << std::endl;
-      auto node = parser.program();
+      int ret = parser.program();
+      EXPECT_EQ(ret, 0);
    }
 }
 
