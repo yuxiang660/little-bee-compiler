@@ -121,7 +121,7 @@ int Parser::stmts(int begin_label) {
       {
          move_ahead(1, Tag::IF);
          move_ahead(1, Tag::LBRACKET);
-         int jump_label = If(next_label, boolean()).prog_stmt(m_out);
+         int jump_label = If(next_label, expr()).prog_stmt(m_out);
          move_ahead(1, Tag::RBRACKET);
          block(Stmt::gen_unique_label());
          next_label = stmts(jump_label);
@@ -147,14 +147,14 @@ int Parser::assign(int begin_label) {
 
    auto op = Node::make_node(m_look);
    move_ahead(1, Tag::ASSIGN);
-   auto node = boolean();
+   auto node = expr();
    int next_label = Assign(begin_label, symbol, node).prog_stmt(m_out);
    move_ahead(1, Tag::SEMI);
 
    return next_label;
 }
 
-NodePtr Parser::boolean() {
+NodePtr Parser::expr() {
    auto node = join();
    while (m_look->get_tag() == Tag::OR) {
       auto op = Node::make_node(m_look);
@@ -252,7 +252,7 @@ NodePtr Parser::factor() {
 
    if (t == Tag::LBRACKET) {
       move_ahead(1, Tag::LBRACKET);
-      auto node = boolean();
+      auto node = expr();
       move_ahead(1, Tag::RBRACKET);
       return node;
    }

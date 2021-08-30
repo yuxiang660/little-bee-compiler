@@ -53,7 +53,7 @@ TEST(ParserTest, Boolean_ExpectedLog) {
       LBC::Lexer lex(iss);
       auto parser = LBC::Parser(lex);
       std::cout << "-------- Output Text ---------" << std::endl;
-      auto node = parser.boolean();
+      auto node = parser.expr();
       parser.dump();
       std::cout << "\t" << node->to_string() << std::endl;
    }

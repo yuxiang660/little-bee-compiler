@@ -60,10 +60,10 @@ public:
     *    stmts -> stmt stmts
     *           | ε (if current token is "}", it means no more statements any more)
     *     stmt -> 
-    *           | if (boolean) stmt
-    *           | if (boolean) stmt else stmt
-    *           | while (boolean) stmts
-    *           | do stmts while (boolean);
+    *           | if (expr) stmt
+    *           | if (expr) stmt else stmt
+    *           | while (expr) stmts
+    *           | do stmts while (expr);
     *           | break;
     *           | continue;
     *           | block
@@ -77,20 +77,20 @@ public:
     *    It handles "=".
     *    Returns next label number.
     * Grammar:
-    *    assign -> symbol = boolean ;
+    *    assign -> symbol = expr ;
     */
    int assign(int begin_label);
 
    /*
     * Desc:
-    *    "boolean" connects two join(&&) expressions with OR operator "&||".
+    *    "expr" connects two join(&&) expressions with OR operator "&||".
     *    It handles "||".
     * Grammar:
-    *    boolean -> join rest
+    *    expr -> join rest
     *       rest -> || join rest
     *             | ε
     */
-   NodePtr boolean();
+   NodePtr expr();
 
    /*
     * Desc:
@@ -164,7 +164,7 @@ public:
     *    "factor" is a number, or an expression with "()".
     *    It handles "numbers, ()"
     * Grammar:
-    *    factor -> (boolean) | digital
+    *    factor -> (expr) | digital
     */
    NodePtr factor();
 
