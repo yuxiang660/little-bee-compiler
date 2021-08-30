@@ -26,4 +26,7 @@ cov:
 lint:
 	cpplint --recursive ./src
 
+doc:
+	firefox ./build/doxygen/html/index.html
+
 .PHONY: build debug run test clean coverage
