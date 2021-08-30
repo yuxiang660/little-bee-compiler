@@ -99,7 +99,7 @@ TEST(ParserTest, Rel_ExpectedLog) {
    }
 }
 
-TEST(ParserTest, Expr_ExpectedLog) {
+TEST(ParserTest, Arith_ExpectedLog) {
    std::vector<std::string> test_text {
       "1+2",
       "1+2*4",
@@ -118,7 +118,7 @@ TEST(ParserTest, Expr_ExpectedLog) {
       LBC::Lexer lex(iss);
       auto parser = LBC::Parser(lex);
       std::cout << "-------- Output Text ---------" << std::endl;
-      auto node = parser.expr();
+      auto node = parser.arith();
       parser.dump();
       std::cout << "\t" << node->to_string() << std::endl;
    }

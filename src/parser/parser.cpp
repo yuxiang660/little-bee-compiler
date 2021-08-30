@@ -185,7 +185,7 @@ NodePtr Parser::equality() {
 }
 
 NodePtr Parser::rel() {
-   auto node = expr();
+   auto node = arith();
    // "<, <=, >, >="
    switch (m_look->get_tag())
    {
@@ -196,14 +196,14 @@ NodePtr Parser::rel() {
    {
       auto op = Node::make_node(m_look);
       move_ahead(4, Tag::LESS, Tag::LE, Tag::GREAT, Tag::GE);
-      return RelGen(op, node, expr()).program(m_out);
+      return RelGen(op, node, arith()).program(m_out);
    }
    default:
       return node;
    }
 }
 
-NodePtr Parser::expr() {
+NodePtr Parser::arith() {
    auto node = term();
    while (m_look->get_tag() == Tag::ADD || m_look->get_tag() == Tag::SUB) {
       auto op = Node::make_node(m_look);

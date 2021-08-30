@@ -118,25 +118,25 @@ public:
     *    operation between two numbers.
     *    It handles "<, <=, >, >=".
     * Grammar:
-    *    rel -> expr <  expr
-    *         | expr <= expr
-    *         | expr >  expr
-    *         | expr >= expr
-    *         | expr
+    *    rel -> arith <  arith
+    *         | arith <= arith
+    *         | arith >  arith
+    *         | arith >= arith
+    *         | arith
     */
    NodePtr rel();
 
    /*
     * Desc:
-    *    "expr" is the arithmetic expression which can be deduced to a number.
+    *    "arith" is the arithmetic expression which can be deduced to a number.
     *    It handles "+, -".
     * Grammar:
-    *    expr -> term rest
+    *    arith -> term rest
     *    rest -> + term rest
     *          | - term rest
     *          | ε
     */
-   NodePtr expr();
+   NodePtr arith();
 
    /*
     * Desc:
