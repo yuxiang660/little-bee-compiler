@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.13)
 
 # Setting a project
-project(cpp_startup_project VERSION 1.0
+project(lbcompiler VERSION 1.0
                    DESCRIPTION "C++ Start Up Project"
                    LANGUAGES CXX)
 
@@ -29,3 +29,4 @@ enable_testing()
 
 add_subdirectory(test)
 add_subdirectory(main)
+add_subdirectory (docs)
