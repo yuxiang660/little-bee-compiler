@@ -11,6 +11,7 @@
 
 #include <cassert>
 #include <memory>
+#include <string>
 
 namespace LBC
 {
@@ -277,11 +278,13 @@ NodePtr Parser::factor() {
 
 void Parser::move_ahead(int count, ...) {
    bool is_match = false;
+   std::string err_msg = ". Expected tag value: ";
 
    std::va_list args;
    va_start(args, count);
    for (int i = 0; i < count; ++i) {
       Tag expected_tag = va_arg(args, Tag);
+      err_msg += (i == 0) ? std::to_string(static_cast<int>(expected_tag)) : ", " + std::to_string(static_cast<int>(expected_tag));
       if (m_look->get_tag() == expected_tag) {
          is_match = true;
          break;
@@ -289,8 +292,9 @@ void Parser::move_ahead(int count, ...) {
    }
    va_end(args);
 
+   err_msg = m_look->err_message() + err_msg;
    if (!is_match) {
-      throw Exception(ERR_PARSER_UNEXPECTED_TOKEN, m_look->err_message().c_str());
+      throw Exception(ERR_PARSER_UNEXPECTED_TOKEN, err_msg.c_str());
    }
 
    m_look = m_lex.scan();
