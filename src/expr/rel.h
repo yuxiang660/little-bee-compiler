@@ -1,7 +1,7 @@
 #pragma once
 
-#include "parser/op.h"
-#include "parser/type.h"
+#include "expr/op.h"
+#include "expr/type.h"
 
 #include <string>
 

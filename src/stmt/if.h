@@ -1,6 +1,6 @@
 #pragma once
 
-#include "parser/stmt.h"
+#include "stmt/stmt.h"
 
 namespace LBC
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "parser/node.h"
+#include "expr/node.h"
 
 #include <iostream>
 #include <memory>
@@ -30,16 +30,5 @@ public:
 private:
    int m_label;
 };
-
-// class If: public StmtInterface
-// {
-// public:
-//    explicit If(int stmt_label, NodePtr bool_expr);
-//    int prog_stmt(std::ostream& out) const;
-
-// private:
-//    int m_stmt_label;
-//    NodePtr m_bool_expr;
-// };
 
 }

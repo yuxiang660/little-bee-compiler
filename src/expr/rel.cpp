@@ -1,6 +1,6 @@
-#include <parser/rel.h>
-#include <parser/arith.h>
-#include <parser/temp.h>
+#include <expr/rel.h>
+#include <expr/arith.h>
+#include <expr/temp.h>
 
 #include <cassert>
 #include <memory>

@@ -1,10 +1,10 @@
 #pragma once
 
 #include "lexer/token.h"
-#include "parser/type.h"
+#include "expr/type.h"
 
-#include <memory>
 #include <iostream>
+#include <memory>
 #include <string>
 
 namespace LBC
@@ -13,8 +13,18 @@ namespace LBC
 class NodeInterface
 {
 public:
+   /**
+    * @brief Gets output string of the node to generate three address code.
+    * @return std::string, the string of the node.
+    */
    virtual std::string to_string() const = 0;
+
+   /**
+    * @brief Gets the type of the node.
+    * @return Type, the type of the node.
+    */
    virtual Type get_type() const = 0;
+
    virtual ~NodeInterface() = default;
 };
 
@@ -39,7 +49,13 @@ private:
 class GenInterface
 {
 public:
+   /**
+    * @brief Prints the three address code of the class.
+    * @param out the output desitination
+    * @return NodePtr, the result node after print, such as temp node.
+    */
    virtual NodePtr program(std::ostream& out) const = 0;
+
    virtual ~GenInterface() = default;
 };
 

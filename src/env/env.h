@@ -1,7 +1,7 @@
 #pragma once
 
 #include "lexer/token.h"
-#include "parser/node.h"
+#include "expr/node.h"
 
 #include <memory>
 #include <unordered_map>

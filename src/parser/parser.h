@@ -1,9 +1,9 @@
 #pragma once
 
-#include "parser/node.h"
+#include "env/env.h"
+#include "expr/node.h"
 #include "lexer/lexer.h"
 #include "internal/error.h"
-#include "env/env.h"
 
 #include <cstdarg>
 #include <iostream>

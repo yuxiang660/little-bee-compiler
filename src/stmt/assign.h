@@ -1,7 +1,7 @@
 #pragma once
 
-#include "parser/stmt.h"
-#include "parser/node.h"
+#include "stmt/stmt.h"
+#include "expr/node.h"
 
 namespace LBC
 {

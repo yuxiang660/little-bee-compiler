@@ -1,7 +1,7 @@
-#include "parser/if.h"
-#include "parser/arith.h"
-#include "parser/rel.h"
-#include "parser/temp.h"
+#include "stmt/if.h"
+#include "expr/arith.h"
+#include "expr/rel.h"
+#include "expr/temp.h"
 
 #include <memory>
 

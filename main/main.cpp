@@ -1,8 +1,8 @@
 #include "lexer/lexer.h"
 #include "parser/parser.h"
 #include "env/env.h"
-#include "parser/temp.h"
-#include "parser/stmt.h"
+#include "expr/temp.h"
+#include "stmt/stmt.h"
 
 #include <fstream>
 #include <iostream>

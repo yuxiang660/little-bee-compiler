@@ -1,13 +1,13 @@
 #include "parser/parser.h"
-#include "parser/arith.h"
-#include "parser/rel.h"
-#include "parser/unary.h"
-#include "parser/type.h"
-#include "parser/symbol.h"
-#include "parser/assign.h"
-#include "parser/stmt.h"
-#include "parser/if.h"
 #include "env/env.h"
+#include "expr/arith.h"
+#include "expr/rel.h"
+#include "expr/symbol.h"
+#include "expr/type.h"
+#include "expr/unary.h"
+#include "stmt/assign.h"
+#include "stmt/stmt.h"
+#include "stmt/if.h"
 
 #include <cassert>
 #include <memory>
