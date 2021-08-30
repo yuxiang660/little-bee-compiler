@@ -35,7 +35,7 @@ UnaryGen::UnaryGen(Tag unary_op, NodePtr unary_val):
    m_val(unary_val)
 {}
 
-NodePtr UnaryGen::program(std::ostream& out) const
+NodePtr UnaryGen::prog_expr(std::ostream& out) const
 {
    auto unary_node = std::make_shared<UnaryNode>(m_op, m_val);
    auto temp_node = std::make_shared<TempNode>(unary_node->get_type());

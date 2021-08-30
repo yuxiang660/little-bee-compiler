@@ -14,7 +14,7 @@ ArithGen::ArithGen(NodePtr op, NodePtr lhs, NodePtr rhs):
    m_rhs(rhs)
 {}
 
-NodePtr ArithGen::program(std::ostream& out) const
+NodePtr ArithGen::prog_expr(std::ostream& out) const
 {
    return std::make_shared<ArithNode>(m_op, gen_arith_code(m_lhs, out), gen_arith_code(m_rhs, out));
 }

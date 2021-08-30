@@ -19,7 +19,7 @@ RelGen::RelGen(NodePtr op, NodePtr lhs, NodePtr rhs):
    m_rhs(rhs)
 {}
 
-NodePtr RelGen::program(std::ostream& out) const
+NodePtr RelGen::prog_expr(std::ostream& out) const
 {
    NodePtr lhs = m_lhs;
    if (typeid(*m_lhs.get()) == typeid(ArithNode) || typeid(*m_lhs.get()) == typeid(RelNode)) {

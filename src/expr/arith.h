@@ -18,7 +18,7 @@ class ArithGen: public GenInterface
 {
 public:
    ArithGen(NodePtr op, NodePtr lhs, NodePtr rhs);
-   NodePtr program(std::ostream& out) const;
+   NodePtr prog_expr(std::ostream& out) const;
 
 private:
    NodePtr gen_arith_code(NodePtr node, std::ostream& out) const;

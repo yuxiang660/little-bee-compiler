@@ -54,7 +54,7 @@ public:
     * @param out the output desitination
     * @return NodePtr, the result node after print, such as temp node.
     */
-   virtual NodePtr program(std::ostream& out) const = 0;
+   virtual NodePtr prog_expr(std::ostream& out) const = 0;
 
    virtual ~GenInterface() = default;
 };

@@ -20,7 +20,7 @@ class RelGen: public GenInterface
 {
 public:
    RelGen(NodePtr op, NodePtr lhs, NodePtr rhs);
-   NodePtr program(std::ostream& out) const;
+   NodePtr prog_expr(std::ostream& out) const;
 
 private:
    NodePtr m_op;

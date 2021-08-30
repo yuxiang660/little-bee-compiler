@@ -159,7 +159,7 @@ NodePtr Parser::expr() {
    while (m_look->get_tag() == Tag::OR) {
       auto op = Node::make_node(m_look);
       move_ahead(1, Tag::OR);
-      node = RelGen(op, node, join()).program(m_out);
+      node = RelGen(op, node, join()).prog_expr(m_out);
    }
    return node;
 }
@@ -169,7 +169,7 @@ NodePtr Parser::join() {
    while (m_look->get_tag() == Tag::AND) {
       auto op = Node::make_node(m_look);
       move_ahead(1, Tag::AND);
-      node = RelGen(op, node, equality()).program(m_out);
+      node = RelGen(op, node, equality()).prog_expr(m_out);
    }
    return node;
 }
@@ -179,7 +179,7 @@ NodePtr Parser::equality() {
    if (m_look->get_tag() == Tag::EQ || m_look->get_tag() == Tag::NE) {
       auto op = Node::make_node(m_look);
       move_ahead(2, Tag::EQ, Tag::NE);
-      node = RelGen(op, node, rel()).program(m_out);
+      node = RelGen(op, node, rel()).prog_expr(m_out);
    }
    return node;
 }
@@ -196,7 +196,7 @@ NodePtr Parser::rel() {
    {
       auto op = Node::make_node(m_look);
       move_ahead(4, Tag::LESS, Tag::LE, Tag::GREAT, Tag::GE);
-      return RelGen(op, node, arith()).program(m_out);
+      return RelGen(op, node, arith()).prog_expr(m_out);
    }
    default:
       return node;
@@ -208,7 +208,7 @@ NodePtr Parser::arith() {
    while (m_look->get_tag() == Tag::ADD || m_look->get_tag() == Tag::SUB) {
       auto op = Node::make_node(m_look);
       move_ahead(2, Tag::ADD, Tag::SUB);
-      node = ArithGen(op, node, term()).program(m_out);
+      node = ArithGen(op, node, term()).prog_expr(m_out);
    }
    return node;
 }
@@ -218,7 +218,7 @@ NodePtr Parser::term() {
    while (m_look->get_tag() == Tag::MUL || m_look->get_tag() == Tag::DIV) {
       auto op =  Node::make_node(m_look);
       move_ahead(2, Tag::MUL, Tag::DIV);
-      node = ArithGen(op, node, unary()).program(m_out);
+      node = ArithGen(op, node, unary()).prog_expr(m_out);
    }
    return node;
 }
@@ -226,11 +226,11 @@ NodePtr Parser::term() {
 NodePtr Parser::unary() {
    if (m_look->get_tag() == Tag::SUB /* Take SUB as MINUX here */) {
       move_ahead(1, Tag::SUB);
-      return UnaryGen(Tag::MINUS, unary()).program(m_out);
+      return UnaryGen(Tag::MINUS, unary()).prog_expr(m_out);
    }
    else if (m_look->get_tag() == Tag::NOT) {
       move_ahead(1, Tag::NOT);
-      return UnaryGen(Tag::NOT, unary()).program(m_out);
+      return UnaryGen(Tag::NOT, unary()).prog_expr(m_out);
    }
    return factor();
 }

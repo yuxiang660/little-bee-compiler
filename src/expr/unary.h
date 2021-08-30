@@ -24,7 +24,7 @@ class UnaryGen: public GenInterface
 {
 public:
    UnaryGen(Tag unary_op, NodePtr unary_val);
-   NodePtr program(std::ostream& out) const;
+   NodePtr prog_expr(std::ostream& out) const;
 
 private:
    Tag m_op;
