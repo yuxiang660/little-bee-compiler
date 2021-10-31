@@ -32,7 +32,7 @@ int main(int argc, char const *argv[])
    }
 
    for (auto const& dir_entry : fs::directory_iterator { dir_path }) {
-      std::string text_path = dir_entry.path().u8string();
+      std::string text_path = dir_entry.path().string();
       // Print test data
       {
          std::cout << "-------- Test Data in " << text_path << " --------\n";
